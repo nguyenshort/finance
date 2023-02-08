@@ -16,6 +16,7 @@ export interface UpdateIdentityInput {
 export interface UpdateInfoInput {
   address: string;
   born: number[];
+  cccd: string;
   education: string;
   income: string;
   job: string;

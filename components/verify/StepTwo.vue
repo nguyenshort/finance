@@ -27,9 +27,9 @@
 
 
         <van-field
-            v-model="form.cmnd"
+            v-model="form.cccd"
             name="cmnd"
-            placeholder="Số CMND"
+            placeholder="Số CMND/CCCD"
             :rules="[{ required: true, message: 'Số CMND là bắt buộc' }]"
         />
 
@@ -165,6 +165,7 @@ const form = reactive<UpdateInfoInput>({
   address: '',
   born: [],
   education: '',
+  cccd: '',
   income: '',
   job: '',
   marriage: '',

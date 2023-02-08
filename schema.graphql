@@ -86,6 +86,7 @@ type Identity {
 type Info {
   address: String!
   born: [Float!]!
+  cccd: String!
   createdAt: Float!
   education: String!
   id: ID!
@@ -169,6 +170,7 @@ input UpdateIdentityInput {
 input UpdateInfoInput {
   address: String!
   born: [Float!]!
+  cccd: String!
   education: String!
   income: String!
   job: String!
