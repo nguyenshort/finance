@@ -23,7 +23,7 @@
             readonly
             clickable
             name="born"
-            :value="form.bank"
+            v-model="form.bank"
             label="Ngân Hàng"
             placeholder="Lựa chọn..."
             :rules="[{ required: true, message: 'Ngân hàng là bắt buộc' }]"
@@ -31,7 +31,7 @@
         />
 
         <div style="margin: 16px;">
-          <van-button round block type="primary" native-type="submit">
+          <van-button round block type="primary" native-type="submit" :loading="loading">
             Xác Minh
           </van-button>
         </div>
@@ -55,20 +55,35 @@
 </template>
 
 <script lang="ts" setup>
-import {IBank, VerifyBank} from "~/entities/verify.entity";
+import {IBank} from "~/entities/verify.entity";
+import {UpdateBankInput} from "~/apollo/__generated__/serverTypes";
+import {PickerConfirmEventParams} from "vant";
+import {UPDATE_BANK} from "~/apollo/mutates/bank.mutate";
+import {UpdateBank, UpdateBankVariables} from "~/apollo/mutates/__generated__/UpdateBank";
 
-const form = reactive<VerifyBank>({
+const form = reactive<UpdateBankInput>({
   name: '',
   account: '',
   bank: ''
 })
 
 const showPicker = ref(false)
-const onConfirm = () => {
-
+const onConfirm = ({selectedValues}: PickerConfirmEventParams) => {
+  if (selectedValues.length > 0) {
+    form.bank = String(selectedValues[0])
+  }
+  showPicker.value = false
 }
-const onSubmit = () => {
 
+const emit = defineEmits<{
+  (event: 'next'): void
+}>()
+const {mutate, loading} = useMutation<UpdateBank, UpdateBankVariables>(UPDATE_BANK)
+const onSubmit = async () => {
+  await mutate({
+    input: form
+  })
+  emit('next')
 }
 
 // bank API
@@ -77,7 +92,7 @@ const res = await useFetch<{
 }>('https://api.vietqr.io/v2/banks')
 const banks = computed(() => res.data.value?.data || [])
 // covert to comlumns
-const columns = computed(() => banks.value.map((e) => ({ text: e.name, value: e.name })))
+const columns = computed(() => banks.value.map((e) => ({text: e.name, value: e.name})))
 </script>
 
 <style scoped></style>

@@ -90,7 +90,7 @@
         />
 
         <div style="margin: 16px;">
-          <van-button round block type="primary" native-type="submit">
+          <van-button round block type="primary" native-type="submit" :loading="loading">
             Submit
           </van-button>
         </div>

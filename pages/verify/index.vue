@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-const currentStep = ref(1)
+const currentStep = ref(2)
 const showExample = ref(false)
 </script>
 

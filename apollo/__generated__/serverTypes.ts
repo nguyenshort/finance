@@ -7,6 +7,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface UpdateBankInput {
+  account: string;
+  bank: string;
+  name: string;
+}
+
 export interface UpdateIdentityInput {
   avatar: string;
   back: string;
