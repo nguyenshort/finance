@@ -18,7 +18,7 @@
             readonly
             clickable
             name="born"
-            :value="form.born"
+            v-model="birthday"
             label="Ngày Sinh"
             placeholder="Lựa chọn..."
             :rules="[{ required: true, message: 'Ngày sinh là bắt buộc' }]"
@@ -52,7 +52,7 @@
             readonly
             clickable
             name="income"
-            :value="form.income"
+            v-model="income"
             label="Thu Nhập"
             placeholder="Lựa chọn...."
             @click="showIncomePicker = true"
@@ -63,7 +63,7 @@
             readonly
             clickable
             name="education"
-            :value="form.education"
+            v-model="education"
             label="Học vấn"
             placeholder="Lựa chọn...."
             @click="showEducationPicker = true"
@@ -73,7 +73,7 @@
             readonly
             clickable
             name="marriage"
-            :value="form.marriage"
+            v-model="marriage"
             label="Hôn Nhân"
             placeholder="Lựa chọn...."
             @click="showMarriagePicker = true"
@@ -81,7 +81,7 @@
 
 
         <van-field
-            v-model="form.perpose"
+            v-model="form.purpose"
             label="Lý do vay"
             type="textarea"
             placeholder="Message"
@@ -106,7 +106,7 @@
           cancel-button-text="Huỷ Bỏ"
           :min-date="minDate"
           :max-date="maxDate"
-          :columns-order="['day', 'month', 'year']"
+          :columns-type="['day', 'month', 'year']"
           @confirm="onConfirmBirthday"
           @cancel="showBirthdayPicker = false"
       />
@@ -153,33 +153,47 @@
 </template>
 
 <script lang="ts" setup>
-import {VerifyEntityInfo} from "~/entities/verify.entity";
 import type {
   PickerOption,
   PickerConfirmEventParams,
 } from 'vant'
+import {UpdateInfoInput} from "~/apollo/__generated__/serverTypes";
+import {UpdateInfo, UpdateInfoVariables} from "~/apollo/mutates/__generated__/UpdateInfo";
+import {UPDATE_INFO} from "~/apollo/mutates/info.mutate";
 
-const form = reactive<VerifyEntityInfo>({
-  name: '',
-  born: '',
-  cmnd: '',
-  job: '',
-  income: '',
+const form = reactive<UpdateInfoInput>({
   address: '',
+  born: [],
   education: '',
+  income: '',
+  job: '',
   marriage: '',
-  perpose: '',
+  name: '',
+  purpose: ''
 })
 
-// birthday picker
+/**
+ * Section: Birthday
+ */
 const showBirthdayPicker = ref(false)
 const minDate = new Date(1970, 0, 1)
 const maxDate = new Date(2010, 0, 1)
+
+// birthday get and set computed
+const birthday = computed({
+  get: () => form.born.join('/'),
+  set: (value) => value.split('/').map((e) => Number(e))
+})
 const onConfirmBirthday = ({ selectedValues }: PickerConfirmEventParams) => {
-  console.log(selectedValues)
+  if(selectedValues.length === 3) {
+    form.born = selectedValues.map((e) => Number(e))
+  }
+  showBirthdayPicker.value = false
 }
 
-// income
+/**
+ * Section: Income
+ */
 const showIncomePicker = ref(false)
 const inComeColumes: PickerOption[] = [
   { text: 'Dưới 5.000.000', value: 'Dưới 5.000.000' },
@@ -187,11 +201,18 @@ const inComeColumes: PickerOption[] = [
   { text: 'Từ 10.000.000 - 30.000.000', value: 'Từ 10.000.000 - 30.000.000' },
   { text: 'Trên 30.000.000', value: 'Trên 30.000.000' }
 ]
+const income = computed({
+  get: () => form.income,
+  set: (value) => value
+})
 const onConfirmIncome = ({ selectedValues }: PickerConfirmEventParams) => {
-  console.log(selectedValues)
+  selectedValues.length && (form.income = String(selectedValues[0]))
+  showIncomePicker.value = false
 }
 
-// education
+/**
+ * Section: Education
+ */
 const showEducationPicker = ref(false)
 // List education options
 const educationColumes: PickerOption[] = [
@@ -203,11 +224,18 @@ const educationColumes: PickerOption[] = [
   { text: 'Đại học', value: 'Đại học' },
   { text: 'Sau đại học', value: 'Sau đại học' }
 ]
+const education = computed({
+  get: () => form.education,
+  set: (value) => value
+})
 const onConfirmEducation = ({ selectedValues }: PickerConfirmEventParams) => {
-  console.log(selectedValues)
+  selectedValues.length && (form.education = String(selectedValues[0]))
+  showEducationPicker.value = false
 }
 
-// marriage
+/**
+ * Section: marriage
+ */
 const showMarriagePicker = ref(false)
 //['Độc Thân', 'Kết Hôn', 'Ly Hôn']
 const marriageColumes: PickerOption[] = [
@@ -215,11 +243,22 @@ const marriageColumes: PickerOption[] = [
   { text: 'Kết Hôn', value: 'Kết Hôn' },
   { text: 'Ly Hôn', value: 'Ly Hôn' }
 ]
+const marriage = computed({
+  get: () => form.marriage,
+  set: (value) => value
+})
 const onConfirmMarriage = ({ selectedValues }: PickerConfirmEventParams) => {
-  console.log(selectedValues)
+  selectedValues.length && (form.marriage = String(selectedValues[0]))
+  showMarriagePicker.value = false
 }
 
-const onSubmit = () => {
+const emit = defineEmits<{
+  (event: 'next'): void
+}>()
+const { loading, mutate } = useMutation<UpdateInfo, UpdateInfoVariables>(UPDATE_INFO)
+const onSubmit = async () => {
+  await mutate({ input: form })
+  emit('next')
 
 }
 </script>

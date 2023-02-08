@@ -13,6 +13,17 @@ export interface UpdateIdentityInput {
   front: string;
 }
 
+export interface UpdateInfoInput {
+  address: string;
+  born: number[];
+  education: string;
+  income: string;
+  job: string;
+  marriage: string;
+  name: string;
+  purpose: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
