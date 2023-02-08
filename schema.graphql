@@ -1,0 +1,183 @@
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
+
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+type Category {
+  createdAt: Float!
+  description: String!
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+input CreateCategoryInput {
+  description: String!
+  name: String!
+}
+
+input CreateLanguageInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreatePostInput {
+  content: JSON!
+  description: JSON!
+  title: JSON!
+}
+
+input GetUsersFilter {
+  email: String
+  exclude: [ID!] = []
+  limit: Int!
+  name: String
+  offset: Int!
+
+  """Sắp xếp của bình luận"""
+  sort: String!
+}
+
+type Identity {
+  avatar: String!
+  back: String!
+  createdAt: Float!
+  front: String!
+  id: ID!
+  updatedAt: Float!
+  user: User!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type Language {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Mutation {
+  createCategory(input: CreateCategoryInput!): Category!
+  createLanguage(createLanguageInput: CreateLanguageInput!): Language!
+  createPost(createPostInput: CreatePostInput!): Post!
+  removeCategory(id: Int!): Category!
+  removeLanguage(id: Int!): Language!
+  removePost(id: Int!): Post!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  updateIdentity(input: UpdateIdentityInput!): Identity!
+  updateLanguage(updateLanguageInput: UpdateLanguageInput!): Language!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+}
+
+type Notify {
+  """Thông báo lỗi hay không"""
+  error: Boolean!
+
+  """Nội dung tin nhắn"""
+  msg: String!
+
+  """Thành viên hiện tại"""
+  user: User!
+}
+
+type Post {
+  createdAt: Float!
+  description: String!
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+type Query {
+  category(id: Int!): Category!
+  language(id: Int!): Language!
+  me: User!
+  post(id: Int!): Post!
+  users(filter: GetUsersFilter!): [User!]!
+}
+
+type Subscription {
+  """Nhận thông báo"""
+  subNotify: Notify!
+}
+
+input UpdateCategoryInput {
+  description: String
+  id: Int!
+  name: String
+}
+
+input UpdateIdentityInput {
+  avatar: String!
+  back: String!
+  front: String!
+}
+
+input UpdateLanguageInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdatePostInput {
+  content: JSON
+  description: JSON
+  id: Int!
+  title: JSON
+}
+
+type User {
+  avatar: String
+  createdAt: Float!
+  email: String
+  id: ID!
+  name: String!
+  role: UserRole!
+  slug: String!
+
+  """Firebase ID"""
+  uid: String!
+}
+
+enum UserRole {
+  ADMIN
+  SP_ADMIN
+  USER
+}
