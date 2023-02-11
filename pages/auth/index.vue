@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar
-        title="Đăng Ký Mới"
+        :title="isLogin ? 'Đăng Nhập' : 'Đăng Ký Mới'"
         left-arrow
         class="bg-gradient-to-r from-primary-500 to-primary-700"
         @click-left="$router.back()"
@@ -22,7 +22,7 @@
 
 
     <div class="flex justify-center mt-4">
-      <van-form class="max-w-[400px] w-full" @submit="onSubmit">
+      <van-form class="max-w-[420px] w-full" @submit="onSubmit">
         <van-field
             v-model="from.email"
             name="email"
@@ -42,6 +42,7 @@
         />
 
         <van-field
+            v-if="!isLogin"
             v-model="from.rePassword"
             name="password"
             type="password"
@@ -50,9 +51,13 @@
             :rules="[{ validator: validatorRePassword, validateEmpty: false }]"
         />
 
+        <div class="text-center text-[13px] mt-[16px] text-gray-600">
+          <p>Chưa có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng ký ngay</a></p>
+        </div>
+
         <div style="margin: 16px;">
           <van-button round block type="primary" native-type="submit">
-            Bước Tiếp Theo
+            {{ isLogin ? 'Đăng Nhập Ngay' : 'Đăng Ký Ngay'}}
           </van-button>
         </div>
       </van-form>
@@ -64,7 +69,8 @@
 <script lang="ts" setup>
 import {RegisterData} from "~/entities/auth.entity"
 import {FirebaseError} from "@firebase/util";
-import {AuthErrorCodes, createUserWithEmailAndPassword} from "@firebase/auth";
+import {AuthErrorCodes, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth"
+
 
 const from = reactive<RegisterData>({
   email: '123456789',
@@ -72,6 +78,10 @@ const from = reactive<RegisterData>({
   rePassword: '123456789'
 })
 
+const [isLogin, toggleLogin] = useToggle(true)
+/**
+ * Section: Form Handle
+ */
 const errorExtracted =  (_e: FirebaseError) => {
   if (_e.code === AuthErrorCodes.USER_DELETED) {
     //errorMessages.total = 'Tài khoản không tồn tại'
@@ -85,18 +95,14 @@ const errorExtracted =  (_e: FirebaseError) => {
     // errorMessages.total = 'Đăng nhập thất bại'
   }
 }
-
 const register = async () =>
 {
   try {
-    const _user = await createUserWithEmailAndPassword(
-        faAuth(),
-        from.email + '@gmail.com',
-        from.password
-    )
-
-    console.log(_user)
-    // write init data
+    if(isLogin) {
+      await signInWithEmailAndPassword(faAuth(), from.email + '@gmail.com', from.password)
+    } else {
+      await createUserWithEmailAndPassword(faAuth(), from.email + '@gmail.com', from.password)
+    }
 
   } catch (e) {
     console.log(e)
@@ -104,19 +110,21 @@ const register = async () =>
     //
   }
 }
-
 const onSubmit = async () => {
   showLoadingToast('')
   await register()
   closeToast()
 }
 
+
+/**
+ * Section: Form Validator
+ */
 const validatorPassword = (val: string) => {
   if(val.length < 6) {
     return 'Mật khẩu phải lớn hơn 6 ký tự'
   }
 }
-
 // Repassword
 const validatorRePassword = (val: string) => {
   if(val !== from.password) {

@@ -7,6 +7,22 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum LoanStatus {
+  APPROVED = "APPROVED",
+  PENDING = "PENDING",
+  REJECTED = "REJECTED",
+}
+
+export interface CreateLoanInput {
+  amount: number;
+  interest: number;
+  months: number;
+}
+
+export interface SignLoanInput {
+  signature: string;
+}
+
 export interface UpdateBankInput {
   account: string;
   bank: string;

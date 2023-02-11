@@ -53,6 +53,12 @@ input CreateLanguageInput {
   exampleField: Int!
 }
 
+input CreateLoanInput {
+  amount: Float!
+  interest: Float!
+  months: Int!
+}
+
 input GetUsersFilter {
   email: String
   exclude: [ID!] = []
@@ -95,9 +101,38 @@ type Language {
   exampleField: Int!
 }
 
+type Loan {
+  """Số Tiền Vay"""
+  amount: Float!
+  createdAt: Float!
+  id: ID!
+
+  """Lãi xuất"""
+  interest: Float!
+
+  """Thời Gian Vay"""
+  months: Int!
+
+  """Image chữ ký"""
+  signature: String!
+
+  """Trạng thái khoản vay"""
+  status: LoanStatus!
+  updatedAt: Float!
+  user: User!
+}
+
+enum LoanStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
 type Mutation {
   createLanguage(createLanguageInput: CreateLanguageInput!): Language!
+  createLoan(input: CreateLoanInput!): Loan!
   removeLanguage(id: Int!): Language!
+  signLoan(input: SignLoanInput!): Loan!
   updateBank(input: UpdateBankInput!): Bank!
   updateIdentity(input: UpdateIdentityInput!): Identity!
   updateInfo(input: UpdateInfoInput!): Info!
@@ -116,9 +151,17 @@ type Notify {
 }
 
 type Query {
+  bank: Bank
+  identity: Identity
+  info: Info
   language(id: Int!): Language!
+  loan: Loan
   me: User!
   users(filter: GetUsersFilter!): [User!]!
+}
+
+input SignLoanInput {
+  signature: String!
 }
 
 type Subscription {

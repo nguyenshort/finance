@@ -19,7 +19,7 @@ export const useUpload = () => {
   }
 
   const document = async (doc: Blob, endpoint: string) => upload(doc, 'document', endpoint)
-    const image = async (doc: Blob, endpoint: string) => upload(doc, 'image', endpoint)
+  const image = async (doc: Blob, endpoint: string) => upload(doc, 'image', endpoint)
 
   return {
     document,

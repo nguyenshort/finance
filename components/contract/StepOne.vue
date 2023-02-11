@@ -63,12 +63,14 @@
 
       <div class="flex justify-center mt-5">
 
-        <button
-            class="btn-effect btn-text-size px-5 py-2 uppercase animate"
-            @click="$emit('next')"
+        <van-button
+            :disabled="!signature || uploading"
+            type="primary"
+            round
+            @click="sign"
         >
           Bước Tiếp Theo
-        </button>
+        </van-button>
 
       </div>
 
@@ -81,7 +83,7 @@
 
         <div>
           <h5>
-            <center>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</center>
+            <div>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
           </h5>
           <h5>
             <center>ĐỘC LẬP - TỰ DO - HANH PHÚC</center>
@@ -153,6 +155,8 @@
 
 <script lang="ts" setup>
 import {SignaturePadEntity} from "~/entities/signature-pad.entity"
+import {SIGN_LOAN} from "~/apollo/mutates/loan.mutate";
+import {SignLoan, SignLoanVariables} from "~/apollo/mutates/__generated__/SignLoan";
 
 const showSignaturePad = ref<boolean>(false)
 const signature = ref('')
@@ -174,6 +178,37 @@ const onConfirmSignaturePad = () => {
 }
 const viewConstract = () => {
   showConstract.value = true
+}
+
+
+const { mutate, loading } = useMutation<SignLoan, SignLoanVariables>(SIGN_LOAN)
+
+const [uploading, toggleUploading] = useToggle(false)
+
+const upload = useUpload()
+
+const { $apollo } = useNuxtApp()
+const sign = async () => {
+  toggleUploading()
+  try {
+
+    // cover base64 to blob
+    const blob = await fetch(signature.value).then(r => r.blob())
+    // upload to server
+    const file = await upload.image(blob, 'signature')
+
+    const newLoan = await mutate({
+        input: {
+          signature: file
+        }
+      })
+    console.log(newLoan)
+    // update cache
+    // this.$apollo.queries.loan.refetch()
+  } catch (e) {
+    //
+  }
+  toggleUploading()
 }
 </script>
 

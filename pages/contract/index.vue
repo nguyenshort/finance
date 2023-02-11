@@ -18,14 +18,26 @@
     <div class="px-4">
       <contract-step-one v-if="currentStep === 0" @next="currentStep = 1"  />
       <contract-step-two v-if="currentStep === 1" />
-<!--      <contract-step-one v-if="currentStep === 0" @next="currentStep = 1" />-->
-<!--      <constract-step-two v-if="currentStep === 1" />-->
     </div>
 
   </div>
 </template>
 
 <script lang="ts" setup>
+import {GET_LOAN} from "~/apollo/queries/loan.query";
+import {GetLoan} from "~/apollo/queries/__generated__/GetLoan";
+
+const router = useRouter()
+
+// verify if loan exist => /contract
+const { data } = await useAsyncQuery<GetLoan>(GET_LOAN)
+
+const loan = computed(() => data?.value?.loan)
+
+if(!loan) {
+  router.replace('/loan')
+}
+
 const currentStep = ref<number>(0)
 </script>
 
