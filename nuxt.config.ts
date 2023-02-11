@@ -4,6 +4,7 @@ export default defineNuxtConfig({
         '@nuxtjs/tailwindcss',
         '@nuxtjs/apollo',
         '@vueuse/nuxt',
+        // '@nuxt/devtools',
         [
             '@pinia/nuxt',
             {
@@ -18,6 +19,10 @@ export default defineNuxtConfig({
     ],
     imports: {
         autoImport: true,
+        dirs: [
+            // automatically imports apollo folder
+           './apollo/*',
+        ],
         imports: [
             // Vue Use Firebase
             { name: 'useAuth', from: '@vueuse/firebase' },
@@ -50,7 +55,7 @@ export default defineNuxtConfig({
 
             // van import { closeToast, showLoadingToast } from 'vant';
             { name: 'closeToast', from: 'vant' },
-            { name: 'showLoadingToast', from: 'vant' },
+            { name: 'showLoadingToast', from: 'vant' }
         ]
     },
     apollo: {

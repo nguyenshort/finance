@@ -57,8 +57,12 @@
 </template>
 
 <script lang="ts" setup>
-import {VERIFIED_DATA} from "~/apollo/queries/loan.query";
-import {VerifiedData} from "~/apollo/queries/__generated__/VerifiedData";
+import {VERIFIED_DATA} from "~/apollo/queries/loan.query"
+import {VerifiedData} from "~/apollo/queries/__generated__/VerifiedData"
+
+definePageMeta({
+  middleware: ['verify'],
+})
 
 const currentStep = ref(0)
 const showExample = ref(false)

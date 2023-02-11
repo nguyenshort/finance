@@ -15,30 +15,38 @@
       </van-steps>
     </div>
 
-    <div class="px-4">
-      <contract-step-one v-if="currentStep === 0" @next="currentStep = 1"  />
-      <contract-step-two v-if="currentStep === 1" />
+    <div v-if="loan" class="px-4">
+      <contract-step-one v-if="!loan?.signature" @next="currentStep = 1" :loan="loan" @update="refresh()" />
+      <contract-step-two v-else :loan="loan" />
     </div>
 
   </div>
 </template>
 
 <script lang="ts" setup>
-import {GET_LOAN} from "~/apollo/queries/loan.query";
 import {GetLoan} from "~/apollo/queries/__generated__/GetLoan";
 
-const router = useRouter()
+definePageMeta({
+  middleware: ['contract'],
+})
+const { data, refresh } = await useAsyncQuery<GetLoan>(GET_LOAN)
+const loan = computed(() => data.value?.loan)
 
-// verify if loan exist => /contract
-const { data } = await useAsyncQuery<GetLoan>(GET_LOAN)
+const currentStep = computed(() => {
 
-const loan = computed(() => data?.value?.loan)
+  if(!loan.value) {
+    return -1
+  }
 
-if(!loan) {
-  router.replace('/loan')
-}
+  if(!loan.value.signature) {
+    return 0
+  } else if (loan.value.status === LoanStatus.PENDING) {
+    return 1
+  } else {
+    return 2
+  }
 
-const currentStep = ref<number>(0)
+})
 </script>
 
 <style scoped></style>

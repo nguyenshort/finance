@@ -123,26 +123,17 @@
 
 <script lang="ts" setup>
 import {CreateLoanInput} from "~/apollo/__generated__/serverTypes";
-import {CREATE_LOAN} from "~/apollo/mutates/loan.mutate";
 import {CreateLoan, CreateLoanVariables} from "~/apollo/mutates/__generated__/CreateLoan"
 import type { FormInstance } from 'vant'
-import {GET_LOAN} from "~/apollo/queries/loan.query";
-import {GetLoan} from "~/apollo/queries/__generated__/GetLoan";
+
+definePageMeta({
+  middleware: ['loan'],
+})
 
 const router = useRouter()
 
-// verify if loan exist => /contract
-const { data } = await useAsyncQuery<GetLoan>(GET_LOAN)
-if(data?.value?.loan) {
-  router.replace('/contract')
-}
-
-
 const formRef = ref<FormInstance>();
-const moneyFormat = (count: number) => {
-  const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' })
-  return formatter.format(count).replace('₫', '').trim()
-}
+const { $moneyFormat } = useNuxtApp()
 const form = reactive<CreateLoanInput>({
   months: 0,
   amount: 0,
@@ -151,7 +142,7 @@ const form = reactive<CreateLoanInput>({
 
 // using computed get and set to tranfrom number to money format
 const amount = computed({
-  get: () => moneyFormat(form.amount),
+  get: () => $moneyFormat(form.amount),
   set: (value) => {
     form.amount = Number(value.replaceAll('.', '').replaceAll('VND', '').trim())
   }
