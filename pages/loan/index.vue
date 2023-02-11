@@ -12,7 +12,7 @@
         <div>Hạn Mức Vay</div>
         <div class="mx-auto w-full h-full">
 
-          <van-form @submit="onSubmit" ref="formRef">
+          <van-form @submit="mutate({ input: form })" ref="formRef">
             <div class="flex items-center">
               <van-field
                   v-model="amount"
@@ -56,7 +56,7 @@
         <ul>
           <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
             <div class="w-1/2">Hạn mức vay</div>
-            <div class="w-1/2">{{ moneyFormat(form.amount) }} VND</div>
+            <div class="w-1/2">{{ $moneyFormat(form.amount) }} VND</div>
           </li>
 
           <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
@@ -67,7 +67,7 @@
 
           <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
             <div class="w-1/2">Số kì trả nợ đầu</div>
-            <div class="w-1/2">{{ moneyFormat(interestPerMonth) }} VND</div>
+            <div class="w-1/2">{{ $moneyFormat(interestPerMonth) }} VND</div>
           </li>
 
 
@@ -125,6 +125,7 @@
 import {CreateLoanInput} from "~/apollo/__generated__/serverTypes";
 import {CreateLoan, CreateLoanVariables} from "~/apollo/mutates/__generated__/CreateLoan"
 import type { FormInstance } from 'vant'
+import {GetLoan, GetLoan_loan} from "~/apollo/queries/__generated__/GetLoan";
 
 definePageMeta({
   middleware: ['loan'],
@@ -185,21 +186,23 @@ const interestPerMonth = computed(() => {
   return Math.round(base * form.interest)
 })
 
-const { loading, mutate } = useMutation<CreateLoan, CreateLoanVariables>(CREATE_LOAN)
-const onSubmit = async () => {
-  try {
-    const data = await mutate({
-      input: form
+const { loading, mutate, onDone } = useMutation<CreateLoan, CreateLoanVariables>(CREATE_LOAN)
+const { $apollo } = useNuxtApp()
+onDone((data) => {
+  if(data.data?.createLoan) {
+    $apollo.defaultClient.writeQuery({
+      query: GET_LOAN,
+      data: {
+        loan: {
+          ...data.data.createLoan,
+          status: LoanStatus.PENDING,
+          signature: ''
+        } as GetLoan_loan
+      }
     })
-    if(data?.data?.createLoan) {
-      router.replace('/contract')
-    }
-  } catch (e) {
-    //
+    router.push('/contract')
   }
-}
-
-
+})
 const validatorAmount = () => {
   if(form.amount <= 30000000 || form.amount >= 500000000) {
     return 'Số tiền phải nằm trong khoảng từ 30 tới 500 triệu'

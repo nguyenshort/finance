@@ -6,7 +6,6 @@ export default defineNuxtRouteMiddleware(async () => {
     const { data } = await $apollo.defaultClient.query<VerifiedData>({
         query: VERIFIED_DATA
     })
-    console.log(data)
     if(data.info && data.bank && data.identity) {
         return navigateTo('/loan')
     }

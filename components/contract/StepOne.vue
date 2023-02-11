@@ -72,7 +72,7 @@ import {SignLoan, SignLoanVariables} from "~/apollo/mutates/__generated__/SignLo
 import {GetLoan_loan} from "~/apollo/queries/__generated__/GetLoan"
 
 defineProps<{
-  loan: Pick<GetLoan_loan, 'id' | 'amount' | 'signature' | 'months'>
+  loan: Pick<GetLoan_loan, | 'id' | 'amount' | 'signature' | 'months'>
 }>()
 
 /**
@@ -108,6 +108,8 @@ onDone((data) => data.data?.signLoan && emit('update', data.data.signLoan))
  */
 const [uploading, toggleUploading] = useToggle(false)
 const upload = useUpload()
+
+const { $apollo } = useNuxtApp()
 const sign = async () => {
   toggleUploading()
   try {
@@ -121,7 +123,16 @@ const sign = async () => {
           signature: file
         }
       })
-    console.log(newLoan)
+    if(newLoan?.data?.signLoan) {
+      $apollo.defaultClient.cache.modify({
+        id: `Loan:${newLoan.data.signLoan.id}`,
+        fields: {
+          signature() {
+            return newLoan.data?.signLoan?.signature
+          }
+        }
+      })
+    }
     // update cache
     // this.$apollo.queries.loan.refetch()
   } catch (e) {

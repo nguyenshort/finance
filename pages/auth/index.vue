@@ -52,7 +52,8 @@
         />
 
         <div class="text-center text-[13px] mt-[16px] text-gray-600">
-          <p>Chưa có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng ký ngay</a></p>
+          <p v-if="isLogin">Chưa có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng ký ngay</a></p>
+          <p v-else>Đã có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng nhập ngay</a></p>
         </div>
 
         <div style="margin: 16px;">

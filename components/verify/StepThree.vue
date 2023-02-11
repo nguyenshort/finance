@@ -3,7 +3,7 @@
     <div class="text-center">
       <h3 class="font-semibold text-xl mb-4">Thông Tin Ngân Hàng Hưởng Thụ</h3>
 
-      <van-form :label-width="100" @submit="onSubmit">
+      <van-form :label-width="100" @submit="mutate({ input: form })">
         <van-field
             v-model="form.name"
             name="name"
@@ -75,16 +75,10 @@ const onConfirm = ({selectedValues}: PickerConfirmEventParams) => {
   showPicker.value = false
 }
 
-const emit = defineEmits<{
-  (event: 'next'): void
-}>()
-const {mutate, loading} = useMutation<UpdateBank, UpdateBankVariables>(UPDATE_BANK)
-const onSubmit = async () => {
-  await mutate({
-    input: form
-  })
-  emit('next')
-}
+const {mutate, loading, onDone} = useMutation<UpdateBank, UpdateBankVariables>(UPDATE_BANK)
+
+const router = useRouter()
+onDone((val) => val.data?.updateBank && router.push('/loan'))
 
 // bank API
 const res = await useFetch<{

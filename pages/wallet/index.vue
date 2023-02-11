@@ -83,4 +83,23 @@
 
 </script>
 
-<style scoped></style>
+<style>
+
+.atm-card {
+  aspect-ratio: 670/180;
+}
+
+.stk-info {
+  background: #00000029;
+  color: white;
+  width: 70%;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+#list-constract .van-collapse-item__title {
+  background: white;
+  border-radius: 0.375rem;
+}
+
+</style>

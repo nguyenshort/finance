@@ -9,47 +9,31 @@
 
     <div class="py-3">
 
-      <template v-if="verified">
-        <div class="pb-16 flex justify-center flex-col items-center">
-          <div class="w-[400px] -my-12">
-            <vue-lottie-player path="https://assets10.lottiefiles.com/packages/lf20_9s417nlp.json" autoplay loop height="90%" width="100%"></vue-lottie-player>
-          </div>
+      <van-steps :active="currentStep" active-color="#38f" inactive-color="#969799">
+        <van-step>XM Tên Thật</van-step>
+        <van-step>Thông Tin</van-step>
+        <van-step>NH Hưởng Thụ</van-step>
+      </van-steps>
 
-          <p class="mb-6 text-[13px] text-gray-500">Bạn đã xác thực thông tin cá nhân vay.</p>
+      <div v-if="showExample" class="text-center">
 
-          <div class="w-[100px]">
-            <van-button round type="primary" @click="$router.push('/loan')">Vay Ngay</van-button>
-          </div>
-        </div>
-      </template>
+        <h3 class="font-semibold text-xl mb-4">Hướng Dẫn</h3>
 
-      <template v-else>
-        <van-steps :active="currentStep" active-color="#38f" inactive-color="#969799">
-          <van-step>XM Tên Thật</van-step>
-          <van-step>Thông Tin</van-step>
-          <van-step>NH Hưởng Thụ</van-step>
-        </van-steps>
+        <verify-step-item title="Mặt Trước CMND" image="/images/CMND_MT.jpeg" />
+        <verify-step-item class="mt-5" title="Mặt Sau CMND" image="/images/CMND_MS.jpeg" />
+        <verify-step-item class="mt-5" title="Ảnh Chân Dung" image="/images/AVATAR.jpeg" />
 
-        <div v-if="showExample" class="text-center">
-
-          <h3 class="font-semibold text-xl mb-4">Hướng Dẫn</h3>
-
-          <verify-step-item title="Mặt Trước CMND" image="/images/CMND_MT.jpeg" />
-          <verify-step-item class="mt-5" title="Mặt Sau CMND" image="/images/CMND_MS.jpeg" />
-          <verify-step-item class="mt-5" title="Ảnh Chân Dung" image="/images/AVATAR.jpeg" />
-
-          <div class="flex justify-center mt-5">
-            <button class="btn-effect btn-text-size px-5 py-2 uppercase" @click="showExample = false">Đã Hiểu</button>
-          </div>
-
+        <div class="flex justify-center mt-5">
+          <button class="btn-effect btn-text-size px-5 py-2 uppercase" @click="showExample = false">Đã Hiểu</button>
         </div>
 
-        <verify-step-one v-else-if="currentStep === 0" @next="currentStep = 1" />
+      </div>
 
-        <verify-step-two v-else-if="currentStep === 1" @next="currentStep = 2" />
+      <verify-step-one v-else-if="currentStep === 0" @next="refresh" />
 
-        <verify-step-three v-else-if="currentStep === 2" />
-      </template>
+      <verify-step-two v-else-if="currentStep === 1" @next="refresh" />
+
+      <verify-step-three v-else-if="currentStep === 2" />
 
     </div>
 
@@ -57,23 +41,26 @@
 </template>
 
 <script lang="ts" setup>
-import {VERIFIED_DATA} from "~/apollo/queries/loan.query"
 import {VerifiedData} from "~/apollo/queries/__generated__/VerifiedData"
 
 definePageMeta({
   middleware: ['verify'],
 })
 
-const currentStep = ref(0)
 const showExample = ref(false)
 
-const { data } = await useAsyncQuery<VerifiedData>(VERIFIED_DATA)
+const { data, refresh } = await useAsyncQuery<VerifiedData>(VERIFIED_DATA)
+const identity = computed(() => data.value?.identity)
 const info = computed(() => data.value?.info)
 const bank = computed(() => data.value?.bank)
-const identity = computed(() => data.value?.identity)
 
-const verified = computed(() => Object.values(data.value || {}).length && Object.values(data.value || {}).every(item => item))
 
+const currentStep = computed(() => {
+  if (!identity.value) return 0
+  if (!info.value) return 1
+  if (!bank.value) return 2
+  return 3
+})
 </script>
 
 <style scoped></style>
