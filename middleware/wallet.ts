@@ -1,5 +1,3 @@
-import {VerifiedData} from "~/apollo/queries/__generated__/VerifiedData";
-import {VERIFIED_DATA} from "~/apollo/queries/loan.query";
 import {GET_BANK} from "~/apollo/queries/bank.query";
 import {GetBank} from "~/apollo/queries/__generated__/GetBank";
 

@@ -86,7 +86,7 @@ const res = await useFetch<{
 }>('https://api.vietqr.io/v2/banks')
 const banks = computed(() => res.data.value?.data || [])
 // covert to comlumns
-const columns = computed(() => banks.value.map((e) => ({text: e.name, value: e.name})))
+const columns = computed(() => banks.value.map((e) => ({text: e.name, value: e.shortName})))
 </script>
 
 <style scoped></style>
