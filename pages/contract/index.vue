@@ -5,7 +5,11 @@
         left-arrow
         class="bg-gradient-to-r from-primary-500 to-primary-700"
         @click-left="$router.back()"
-    />
+    >
+      <template #right>
+        <van-icon name="wap-home" @click='$router.push("/")' size='20' />
+      </template>
+    </van-nav-bar>
 
     <div class="py-3">
       <van-steps :active="currentStep" active-color="#38f" inactive-color="#969799">

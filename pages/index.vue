@@ -66,10 +66,11 @@
 </template>
 
 <script lang="ts" setup>
-import { VerifiedData } from '~/apollo/queries/__generated__/VerifiedData'
+import { CHECK_SIGNED } from '~/apollo/queries/user.query'
+import { CheckSigned } from '~/apollo/queries/__generated__/CheckSigned'
 
-const { data } = useLazyAsyncQuery<VerifiedData>(VERIFIED_DATA)
-const isUnverified = computed(() => !data.value?.identity)
+const { data } = useLazyAsyncQuery<CheckSigned>(CHECK_SIGNED)
+const isUnverified = computed(() => !data.value?.me?.loan?.signature)
 
 const menu = computed(() => [
   {

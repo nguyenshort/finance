@@ -11,3 +11,15 @@ export const GET_SUPPORTER = gql`
       }
   }
 `
+
+export const CHECK_SIGNED = gql`
+    query CheckSigned {
+        me {
+            id
+            loan {
+                id
+                signature
+            }
+        }
+    }
+`
