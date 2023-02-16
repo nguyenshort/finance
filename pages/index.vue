@@ -4,13 +4,9 @@
       <client-only>
         <div class="text-white flex items-center px-4 pt-2">
           <van-icon class="mr-1" name="volume-o" />
-<!--          <marquee-text :repeat="1" :duration="120">-->
-<!--            <ul class="flex items-center">-->
-<!--              <li v-for="(text, index) in texts" :key="index" class="mr-36">-->
-<!--                {{ text }}-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </marquee-text>-->
+          <client-only>
+            <home-marquee />
+          </client-only>
         </div>
       </client-only>
     </div>

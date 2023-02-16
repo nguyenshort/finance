@@ -33,6 +33,7 @@
     "firebase": "^9.17.1",
     "pinia": "^2.0.30",
     "vant": "^4.0.10",
+    "vue-marquee-text-component": "^2.0.1",
     "vue-signature-pad": "^3.0.2"
   }
 }
