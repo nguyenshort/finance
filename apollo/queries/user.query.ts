@@ -1,8 +1,13 @@
-// import { gql } from '#imports'
-//
-// export const GET_HOME_CONTRACT = gql`
-//   fragment InfoDoc on Info {
-//     id
-//     name
-//   }
-// `
+import { gql } from '#imports'
+
+export const GET_SUPPORTER = gql`
+  query GetSupporter {
+      me {
+          id
+          collaborator {
+              id
+              fanpage
+          }
+      }
+  }
+`

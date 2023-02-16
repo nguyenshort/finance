@@ -15,8 +15,8 @@
     </div>
 
     <div class="flex justify-center">
-      <van-button type="danger" round>
-        {{ LoanStatus.PENDING === loan.status ? 'LIÊN HỆ THẨM ĐỊNH VIÊN' : 'LIÊN HỆ CHĂM SÓC KHÁCH HÀN' }}
+      <van-button type="danger" round @click='openFanpage'>
+        {{ LoanStatus.PENDING === loan.status ? 'LIÊN HỆ THẨM ĐỊNH VIÊN' : 'LIÊN HỆ CHĂM SÓC KHÁCH HÀNG' }}
       </van-button>
     </div>
 
@@ -29,10 +29,20 @@
 
 <script lang="ts" setup>
 import {GetLoan_loan} from "~/apollo/queries/__generated__/GetLoan";
+import { GET_SUPPORTER } from '~/apollo/queries/user.query'
+import { GetSupporter } from '~/apollo/queries/__generated__/GetSupporter'
 
 defineProps<{
   loan: Pick<GetLoan_loan, 'id' | 'amount' | 'signature' | 'months' | 'status'>
 }>()
+
+const { data } = useLazyAsyncQuery<GetSupporter>(GET_SUPPORTER)
+const supporter = computed(() => data.value?.me?.collaborator)
+
+const openFanpage = () => {
+  // open link in the new tab
+  supporter.value?.fanpage && window.open(supporter.value?.fanpage, '_blank')
+}
 </script>
 
 <style scoped></style>
