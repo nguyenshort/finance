@@ -153,7 +153,8 @@ onDone((data) => {
         } as GetLoan_loan
       }
     })
-    router.push('/contract')
+    showNotify({ type: 'success', message: 'Ký tên để hoàn tất hợp đồng' })
+    router.replace('/contract')
   }
 })
 const validatorAmount = () => {

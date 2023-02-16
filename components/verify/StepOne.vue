@@ -44,6 +44,7 @@ const emit = defineEmits<{
 }>()
 const submitIdentity = async () => {
   await mutate({ input: form })
+  showNotify({ type: 'success', message: 'Cập nhật thông tin thành công'})
   if(!disabled.value) {
     emit('next')
   }

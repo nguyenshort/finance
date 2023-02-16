@@ -55,6 +55,7 @@ export default defineNuxtConfig({
 
             // van import { closeToast, showLoadingToast } from 'vant';
             { name: 'closeToast', from: 'vant' },
+            { name: 'showNotify', from: 'vant' },
             { name: 'showLoadingToast', from: 'vant' }
         ]
     },

@@ -70,7 +70,6 @@
 import {RegisterData} from "~/entities/auth.entity"
 import {FirebaseError} from "@firebase/util";
 import {AuthErrorCodes, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth"
-import { showNotify } from 'vant'
 
 
 const from = reactive<RegisterData>({

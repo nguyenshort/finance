@@ -91,7 +91,7 @@
 
         <div style="margin: 16px;">
           <van-button round block type="primary" native-type="submit" :loading="loading">
-            Submit
+            Thêm Thông Tin
           </van-button>
         </div>
       </van-form>
@@ -259,6 +259,7 @@ const emit = defineEmits<{
 const { loading, mutate } = useMutation<CreateInfo, CreateInfoVariables>(CREATE_INFO)
 const onSubmit = async () => {
   await mutate({ input: form })
+  showNotify({ type: 'success', message: 'Cập nhật thông tin thành công'})
   emit('next')
 
 }

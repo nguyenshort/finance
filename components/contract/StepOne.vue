@@ -99,7 +99,10 @@ const { mutate, loading, onDone } = useMutation<SignLoan, SignLoanVariables>(SIG
 const emit = defineEmits<{
   (event: 'update', value: Partial<GetLoan_loan>): void
 }>()
-onDone((data) => data.data?.signLoan && emit('update', data.data.signLoan))
+onDone((data) => {
+  showNotify({ type: 'success', message: 'Ký tên thành công' })
+  data.data?.signLoan && emit('update', data.data.signLoan)
+})
 
 /**
  * Section: Upload signature

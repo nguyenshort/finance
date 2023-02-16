@@ -45,7 +45,7 @@
       </van-button>
     </div>
 
-    <div class="_menu flex justify-center mt-6">
+    <div v-else class="_menu flex justify-center mt-6">
       <nuxt-link
         v-for="item in menu"
         :key="item.text"

@@ -32,7 +32,7 @@
 
         <div style="margin: 16px;">
           <van-button round block type="primary" native-type="submit" :loading="loading">
-            Xác Minh
+            Thêm Tài Khoản Ngân Hàng
           </van-button>
         </div>
       </van-form>
@@ -85,7 +85,10 @@ const onConfirm = ({selectedValues}: PickerConfirmEventParams) => {
 const {mutate, loading, onDone} = useMutation<CreateBank, CreateBankVariables>(CREATE_BANK)
 
 const router = useRouter()
-onDone((val) => val.data?.createBank && router.push('/loan'))
+onDone((val) => {
+  showNotify({ type: 'success', message: 'Thêm ngân hàng thành công'})
+  val.data?.createBank && router.replace('/loan')
+})
 
 // bank API
 const res = await useFetch<{
