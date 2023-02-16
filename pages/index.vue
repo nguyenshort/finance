@@ -41,7 +41,7 @@
 
     <div v-if="isUnverified" class="flex justify-center mt-6">
       <van-button round type="primary" @click="$router.push('/verify')">
-        Bắt Đầu Vay
+        Vay Tiền Ngay
       </van-button>
     </div>
 

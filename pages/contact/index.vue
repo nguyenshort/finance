@@ -17,7 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-
+definePageMeta({
+  middleware: ['cskh']
+})
 </script>
 
 <style scoped></style>
