@@ -48,7 +48,6 @@ const cardNumber = computed(() => {
 
 const currentBank = computed(() => {
   const bankName = bank.value?.bank
-  console.log(banks.value)
   if (!bankName) return null
   return banks.value.find(b => b.shortName === bankName)
 })

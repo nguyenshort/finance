@@ -48,7 +48,14 @@
           :columns="columns"
           @confirm="onConfirm"
           @cancel="showPicker = false"
-      />
+      >
+        <template #option='option'>
+          <div class='flex items-center'>
+            <img :src='option.icon' alt='' class='h-[30px]'/>
+            <span>{{ option.text }}</span>
+          </div>
+        </template>
+      </van-picker>
     </van-popup>
 
   </div>
@@ -56,12 +63,12 @@
 
 <script lang="ts" setup>
 import {IBank} from "~/entities/verify.entity";
-import {UpdateBankInput} from "~/apollo/__generated__/serverTypes";
 import {PickerConfirmEventParams} from "vant";
-import {UPDATE_BANK} from "~/apollo/mutates/bank.mutate";
-import {UpdateBank, UpdateBankVariables} from "~/apollo/mutates/__generated__/UpdateBank";
+import {CREATE_BANK} from "~/apollo/mutates/bank.mutate";
+import { CreateBankInput } from '~/apollo/__generated__/serverTypes'
+import { CreateBank, CreateBankVariables } from '~/apollo/mutates/__generated__/CreateBank'
 
-const form = reactive<UpdateBankInput>({
+const form = reactive<CreateBankInput>({
   name: '',
   account: '',
   bank: ''
@@ -75,10 +82,10 @@ const onConfirm = ({selectedValues}: PickerConfirmEventParams) => {
   showPicker.value = false
 }
 
-const {mutate, loading, onDone} = useMutation<UpdateBank, UpdateBankVariables>(UPDATE_BANK)
+const {mutate, loading, onDone} = useMutation<CreateBank, CreateBankVariables>(CREATE_BANK)
 
 const router = useRouter()
-onDone((val) => val.data?.updateBank && router.push('/loan'))
+onDone((val) => val.data?.createBank && router.push('/loan'))
 
 // bank API
 const res = await useFetch<{
@@ -86,7 +93,7 @@ const res = await useFetch<{
 }>('https://api.vietqr.io/v2/banks')
 const banks = computed(() => res.data.value?.data || [])
 // covert to comlumns
-const columns = computed(() => banks.value.map((e) => ({text: e.name, value: e.shortName})))
+const columns = computed(() => banks.value.map((e) => ({text: e.name, value: e.shortName, icon: e.logo})))
 </script>
 
 <style scoped></style>

@@ -157,11 +157,11 @@ import type {
   PickerOption,
   PickerConfirmEventParams,
 } from 'vant'
-import {UpdateInfoInput} from "~/apollo/__generated__/serverTypes";
-import {UpdateInfo, UpdateInfoVariables} from "~/apollo/mutates/__generated__/UpdateInfo";
-import {UPDATE_INFO} from "~/apollo/mutates/info.mutate";
+import { CreateInfoInput } from '~/apollo/__generated__/serverTypes'
+import { CREATE_INFO } from '~/apollo/mutates/info.mutate'
+import { CreateInfo, CreateInfoVariables } from '~/apollo/mutates/__generated__/CreateInfo'
 
-const form = reactive<UpdateInfoInput>({
+const form = reactive<CreateInfoInput>({
   address: '',
   born: [],
   education: '',
@@ -256,7 +256,7 @@ const onConfirmMarriage = ({ selectedValues }: PickerConfirmEventParams) => {
 const emit = defineEmits<{
   (event: 'next'): void
 }>()
-const { loading, mutate } = useMutation<UpdateInfo, UpdateInfoVariables>(UPDATE_INFO)
+const { loading, mutate } = useMutation<CreateInfo, CreateInfoVariables>(CREATE_INFO)
 const onSubmit = async () => {
   await mutate({ input: form })
   emit('next')

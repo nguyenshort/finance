@@ -1,9 +1,9 @@
 import { gql } from '#imports'
 
-export const UPDATE_BANK = gql`
+export const CREATE_BANK = gql`
   ${BANK_DOC}
-  mutation UpdateBank($input: UpdateBankInput!) {
-    updateBank(input: $input) {
+  mutation CreateBank($input: CreateBankInput!) {
+    createBank(input: $input) {
       ...BankDoc
     }
   }

@@ -47,12 +47,12 @@ definePageMeta({
   middleware: ['verify'],
 })
 
-const showExample = ref(false)
-
 const { data, refresh } = await useAsyncQuery<VerifiedData>(VERIFIED_DATA)
 const identity = computed(() => data.value?.identity)
 const info = computed(() => data.value?.info)
 const bank = computed(() => data.value?.bank)
+
+const showExample = ref(!identity.value)
 
 
 const currentStep = computed(() => {

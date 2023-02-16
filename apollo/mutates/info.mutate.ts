@@ -1,9 +1,9 @@
 import { gql } from '#imports'
 
-export const UPDATE_INFO = gql`
+export const CREATE_INFO = gql`
   ${INFO_DOC}
-  mutation UpdateInfo($input: UpdateInfoInput!) {
-    updateInfo(input: $input) {
+  mutation CreateInfo($input: CreateInfoInput!) {
+    createInfo(input: $input) {
       ...InfoDoc
     }
   }

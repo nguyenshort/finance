@@ -59,10 +59,8 @@
 
     </template>
 
+    <contract-view v-model:show='showConstract' :overide='{ loan: { signature } }' />
 
-    <van-popup v-model:show="showConstract" closeable  position="bottom" :style="{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px', height: '80%'}">
-      <contract-view class="px-4 py-5" v-if="loan" :contract="loan" />
-    </van-popup>
   </div>
 </template>
 

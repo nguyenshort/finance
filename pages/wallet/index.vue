@@ -18,34 +18,42 @@
 
 
       <div class="px-4 mt-5">
-<!--        <van-collapse id="list-constract" v-model:show="activeNames" accordion class="w-full">-->
-<!--          <van-collapse-item title="Xem Hợp Đồng" name="1">-->
+        <van-collapse id="list-constract" :show="true" accordion class="w-full">
+          <van-collapse-item title="Xem Hợp Đồng" name="1">
 
-<!--            <template #title>-->
-<!--              <p class="text-sm relative top-1">Xem Hợp Đồng</p>-->
-<!--            </template>-->
+            <template #title>
+              <p class="text-sm relative top-1">Xem Hợp Đồng</p>
+            </template>
 
-<!--            <ul>-->
-<!--              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">-->
-<!--                <div class="w-1/2">Hạn mức vay</div>-->
-<!--                <div class="w-1/2">2000000 VND</div>-->
-<!--              </li>-->
+            <ul>
+              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
+                <div class="w-1/2">Hạn mức vay</div>
+                <div class="w-1/2">2000000 VND</div>
+              </li>
 
-<!--              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">-->
-<!--                <div class="w-1/2">Số kì thanh toán</div>-->
-<!--                <div class="w-1/2">20</div>-->
-<!--              </li>-->
+              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
+                <div class="w-1/2">Số kì thanh toán</div>
+                <div class="w-1/2">20</div>
+              </li>
 
 
-<!--              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">-->
-<!--                <div class="w-1/2">Chữ ký</div>-->
-<!--                <div class="w-1/2">Đã Ký</div>-->
-<!--              </li>-->
+              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
+                <div class="w-1/2">Chữ ký</div>
+                <div class="w-1/2">Đã Ký</div>
+              </li>
 
-<!--            </ul>-->
+            </ul>
 
-<!--          </van-collapse-item>-->
-<!--        </van-collapse>-->
+          </van-collapse-item>
+        </van-collapse>
+      </div>
+
+
+      <div class="mx-4 bg-white flex rounded-md p-4 items-center mt-5" @click='logout'>
+        <van-icon size="25" color="#355cdd" name="down" class='transform rotate-[-90deg]' />
+        <p class="ml-3 text-sm">
+          Đăng Xuất
+        </p>
       </div>
 
     </div>
@@ -54,9 +62,17 @@
 </template>
 
 <script lang="ts" setup>
+import { signOut } from '@firebase/auth'
+
 definePageMeta({
   middleware: ['wallet'],
 })
+
+const logout = async () => {
+  await $fetch('/api/logout', { method: 'POST' })
+  await signOut(faAuth())
+  window.location.href = '/auth'
+}
 </script>
 
 <style>

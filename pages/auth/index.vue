@@ -4,7 +4,6 @@
         :title="isLogin ? 'Đăng Nhập' : 'Đăng Ký Mới'"
         left-arrow
         class="bg-gradient-to-r from-primary-500 to-primary-700"
-        @click-left="$router.back()"
     />
 
     <div class="flex justify-center pt-5">
@@ -28,7 +27,7 @@
             name="email"
             label="Số Điện Thoại"
             placeholder="*** *** ***"
-            :rules="[{ required: true, message: 'Số điện thoại bắt buộc' }]"
+            :rules="[{ validator: validatorPhoneNumber, message: 'Số điện thoại bắt buộc' }]"
         />
 
 
@@ -38,7 +37,7 @@
             name="password"
             label="Mật Khẩu"
             placeholder="*** *** ***"
-            :rules="[{ validator: validatorPassword, validateEmpty: false }]"
+            :rules="[{ validator: validatorPassword }]"
         />
 
         <van-field
@@ -48,7 +47,7 @@
             type="password"
             label="Xác Nhận Mật Khẩu"
             placeholder="*** *** ***"
-            :rules="[{ validator: validatorRePassword, validateEmpty: false }]"
+            :rules="[{ validator: validatorRePassword }]"
         />
 
         <div class="text-center text-[13px] mt-[16px] text-gray-600">
@@ -71,12 +70,13 @@
 import {RegisterData} from "~/entities/auth.entity"
 import {FirebaseError} from "@firebase/util";
 import {AuthErrorCodes, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth"
+import { showNotify } from 'vant'
 
 
 const from = reactive<RegisterData>({
-  email: '123456789',
-  password: '123456789',
-  rePassword: '123456789'
+  email: '',
+  password: '',
+  rePassword: ''
 })
 
 const [isLogin, toggleLogin] = useToggle(true)
@@ -84,43 +84,67 @@ const [isLogin, toggleLogin] = useToggle(true)
  * Section: Form Handle
  */
 const errorExtracted =  (_e: FirebaseError) => {
-  if (_e.code === AuthErrorCodes.USER_DELETED) {
-    //errorMessages.total = 'Tài khoản không tồn tại'
-  } else if (_e.code === AuthErrorCodes.USER_DISABLED) {
-    //errorMessages.total = 'Tài khoản đã bị khóa'
-  } else if (_e.code === AuthErrorCodes.INVALID_PASSWORD) {
-    //errorMessages.total = 'Mật khẩu không đúng'
-  } else if (_e.code === AuthErrorCodes.INVALID_EMAIL) {
-    //errorMessages.total = 'Email không hợp lệ'
-  } else {
-    // errorMessages.total = 'Đăng nhập thất bại'
+  let errorMessage
+  switch (_e.code) {
+    case AuthErrorCodes.USER_DELETED:
+      errorMessage = 'Tài khoản không tồn tại'
+      break
+    case AuthErrorCodes.USER_DISABLED:
+      errorMessage = 'Tài khoản đã bị khóa'
+      break
+    case AuthErrorCodes.INVALID_PASSWORD:
+      errorMessage = 'Mật khẩu không đúng'
+      break
+    case AuthErrorCodes.INVALID_EMAIL:
+      errorMessage = 'Email không hợp lệ'
+      break
+    default:
+      errorMessage = 'Đăng nhập thất bại'
+      break
   }
+
+  showNotify({
+    type: 'danger',
+    message: errorMessage
+  })
 }
-const register = async () =>
+const authAction = async () =>
 {
   try {
-    if(isLogin) {
+    if(isLogin.value) {
       await signInWithEmailAndPassword(faAuth(), from.email + '@gmail.com', from.password)
+      showNotify({
+        type: 'success',
+        message: 'Đăng Nhập Thành Công'
+      })
     } else {
       await createUserWithEmailAndPassword(faAuth(), from.email + '@gmail.com', from.password)
+      showNotify({
+        type: 'success',
+        message: 'Đăng Ký Thành Công'
+      })
     }
 
   } catch (e) {
-    console.log(e)
     errorExtracted(e as FirebaseError)
-    //
   }
 }
 const onSubmit = async () => {
   showLoadingToast('')
-  await register()
+  await authAction()
   closeToast()
 }
-
 
 /**
  * Section: Form Validator
  */
+
+const validatorPhoneNumber = (val: string) => {
+  if(!/(84|0[3|5|7|8|9])+([0-9]{8})/g.test(val)) {
+    return 'Số điện thoại không hợp lệ'
+  }
+}
+
 const validatorPassword = (val: string) => {
   if(val.length < 6) {
     return 'Mật khẩu phải lớn hơn 6 ký tự'
