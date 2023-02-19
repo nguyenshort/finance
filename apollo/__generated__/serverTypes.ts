@@ -13,6 +13,12 @@ export enum LoanStatus {
   REJECTED = "REJECTED",
 }
 
+export enum WithDrawStatus {
+  APPROVED = "APPROVED",
+  PENDING = "PENDING",
+  REJECTED = "REJECTED",
+}
+
 export interface CreateBankInput {
   account: string;
   bank: string;
@@ -35,6 +41,16 @@ export interface CreateLoanInput {
   amount: number;
   interest: number;
   months: number;
+}
+
+export interface CreateWithdrawInput {
+  amount: number;
+}
+
+export interface GetWithdrawsFilter {
+  limit: number;
+  offset: number;
+  sort: string;
 }
 
 export interface SignLoanInput {

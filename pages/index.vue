@@ -39,23 +39,27 @@
       <h5 class="font-semibold mt-0.5">30 triệu → 500 triệu đồng</h5>
     </div>
 
-    <div v-if="isUnverified" class="flex justify-center mt-6">
-      <van-button round type="primary" @click="$router.push('/verify')">
-        Vay Tiền Ngay
-      </van-button>
-    </div>
-
-    <div v-else class="_menu flex justify-center mt-6">
-      <nuxt-link
+    <div class="_menu flex justify-center mt-6 flex-wrap w-[250px] mx-auto">
+      <a
         v-for="item in menu"
         :key="item.text"
-        :to="item.to"
-        class="text-center flex flex-col items-center mx-3.5"
+        :href="item.to"
+        class="w-1/2 flex flex-col items-center mb-10"
+        @click.prevent='navigatorHandle(item.to)'
       >
         <img :src="item.icon" alt="" class="w-[56px]" />
         <span class="font-semibold mt-2 text-[14px]">{{ item.text }}</span>
-      </nuxt-link>
+      </a>
     </div>
+
+    <van-popup v-model:show="showModal" :style="{ padding: '25px', borderRadius: '15px' }" closeable>
+      <div class="text-center">
+        <h4 class="font-semibold text-[15px] mt-4">Bạn chưa đăng ký vay</h4>
+        <h5 class="font-semibold mt-0.5">Đăng ký ngay để nhận khoản vay đầu tiên</h5>
+        <div class='h-4'></div>
+        <van-button type="primary" @click="$router.push('/verify')">Đăng ký</van-button>
+      </div>
+    </van-popup>
 
     <ul class="px-4 mt-7">
       <li>• Chỉ mất 3 phút đăng ký</li>
@@ -94,6 +98,17 @@ const menu = computed(() => [
     to: '/agreement',
   },
 ])
+
+const router = useRouter()
+const [showModal, toggleShowModal] = useToggle(false)
+const navigatorHandle = (to: string) => {
+  if (isUnverified.value) {
+    toggleShowModal()
+  } else {
+    router.push(to)
+  }
+}
+
 </script>
 
 <style>

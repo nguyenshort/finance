@@ -11,43 +11,12 @@
 
       <wallet-balance />
 
-      <div class="mx-4 bg-white flex rounded-md p-4 items-center mt-5">
-        <van-icon size="25" color="#355cdd" name="balance-o" />
-        <p class="ml-3 text-sm">Rút tiền về tài khoản</p>
-      </div>
+      <wallet-withdraw />
 
 
       <div class="px-4 mt-5">
-        <van-collapse id="list-constract" :show="true" accordion class="w-full">
-          <van-collapse-item title="Xem Hợp Đồng" name="1">
-
-            <template #title>
-              <p class="text-sm relative top-1">Xem Hợp Đồng</p>
-            </template>
-
-            <ul>
-              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
-                <div class="w-1/2">Hạn mức vay</div>
-                <div class="w-1/2">2000000 VND</div>
-              </li>
-
-              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
-                <div class="w-1/2">Số kì thanh toán</div>
-                <div class="w-1/2">20</div>
-              </li>
-
-
-              <li class="flex text-gray-600 text-sm py-3 border-b border-gray-100">
-                <div class="w-1/2">Chữ ký</div>
-                <div class="w-1/2">Đã Ký</div>
-              </li>
-
-            </ul>
-
-          </van-collapse-item>
-        </van-collapse>
+        <wallet-contract />
       </div>
-
 
       <div class="mx-4 bg-white flex rounded-md p-4 items-center mt-5" @click='logout'>
         <van-icon size="25" color="#355cdd" name="down" class='transform rotate-[-90deg]' />

@@ -112,6 +112,11 @@ input CreateLogbookInput {
   exampleField: Int!
 }
 
+input CreateWithdrawInput {
+  """Example field (placeholder)"""
+  amount: Float!
+}
+
 input GetCollaboratorFilter {
   id: ID!
 }
@@ -150,6 +155,14 @@ input GetUsersFilter {
   exclude: [ID!] = []
   limit: Int!
   name: String
+  offset: Int!
+
+  """Sắp xếp của bình luận"""
+  sort: String!
+}
+
+input GetWithdrawsFilter {
+  limit: Int!
   offset: Int!
 
   """Sắp xếp của bình luận"""
@@ -241,6 +254,7 @@ type Mutation {
   createLanguage(createLanguageInput: CreateLanguageInput!): Language!
   createLoan(input: CreateLoanInput!): Loan!
   createLogbook(createLogbookInput: CreateLogbookInput!): Logbook!
+  createWithdraw(input: CreateWithdrawInput!): Withdraw!
   removeLanguage(id: Int!): Language!
   removeLogbook(id: Int!): Logbook!
   signLoan(input: SignLoanInput!): Loan!
@@ -277,6 +291,7 @@ type Query {
   logbook(id: Int!): Logbook!
   me: User!
   users(filter: GetUsersFilter!): [User!]!
+  withdraws(filter: GetWithdrawsFilter!): [Withdraw!]!
 }
 
 input RangeUsersFilter {
@@ -359,4 +374,25 @@ enum UserRole {
   ADMIN
   SP_ADMIN
   USER
+}
+
+type Withdraw {
+  """Số Tiền Vay"""
+  amount: Float!
+  createdAt: Float!
+  id: ID!
+
+  """Số Tiền Vay"""
+  note: String
+
+  """Trạng thái rut tien"""
+  status: WithDrawStatus!
+  updatedAt: Float!
+  user: User!
+}
+
+enum WithDrawStatus {
+  APPROVED
+  PENDING
+  REJECTED
 }
