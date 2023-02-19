@@ -8,4 +8,5 @@ export interface RegisterData {
 
 export type UserMeta = Pick<User, 'uid' | 'displayName' | 'email'> & {
     token: string
+    balance: number
 }
