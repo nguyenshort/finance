@@ -18,9 +18,9 @@
             <div v-else class='text-[13px] text-rose-500'>
               Giao dịch của bạn đã bị từ chối với lý do: "{{ blockRecord.note }}"
             </div>
-<!--            <a href='javascript:void(0)' class="text-xs text-primary-500 underline ml-auto mt-1">-->
-<!--              Liên hệ cộng tác viên-->
-<!--            </a>-->
+            <a href='javascript:void(0)' class="text-xs text-primary-500 underline ml-auto mt-1" @click='openFanpage'>
+              Liên hệ cộng tác viên
+            </a>
           </div>
 
             <van-field
@@ -57,6 +57,8 @@ import {
 import { WithDrawStatus } from '~/apollo/__generated__/serverTypes'
 import { CREATE_WITHDRAW } from '~/apollo/mutates/withdraw.mutate'
 import { CreateWithdraw, CreateWithdrawVariables } from '~/apollo/mutates/__generated__/CreateWithdraw'
+import { GetSupporter } from '~/apollo/queries/__generated__/GetSupporter'
+import { GET_SUPPORTER } from '~/apollo/queries/user.query'
 
 const { result, refetch } = useQuery<GetWithdraws, GetWithdrawsVariables>(GET_WITHDRAWS, {
   filter: {
@@ -105,6 +107,15 @@ const onSubmit = async () => {
     }
   })
   toggleShow()
+}
+
+
+const { data } = useLazyAsyncQuery<GetSupporter>(GET_SUPPORTER)
+const supporter = computed(() => data.value?.me?.collaborator)
+
+const openFanpage = () => {
+  // open link in the new tab
+  supporter.value?.fanpage && window.open(supporter.value?.fanpage, '_blank')
 }
 </script>
 
