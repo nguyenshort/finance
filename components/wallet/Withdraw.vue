@@ -4,7 +4,7 @@
       <van-icon size="25" color="#355cdd" name="balance-o" />
       <a href='javascript:void(0)' class="ml-2 text-sm" @click='() => toggleShow()'>Rút tiền về tài khoản</a>
 
-      <a href='javascript:void(0)' class="text-xs text-primary-500 underline ml-auto">Lịch sử rút tiền</a>
+      <a href='javascript:void(0)' class="text-xs text-primary-500 underline ml-auto" @click='() => toggleShowHistory()'>Lịch sử rút tiền</a>
     </div>
 
 
@@ -43,6 +43,33 @@
         </div>
       </van-form>
     </van-popup>
+
+    <van-popup v-model:show="showHistory" position="bottom" round closeable>
+      <div class='px-5 pb-4 pt-4'>
+
+        <h2>Lịch Sử Rút Tiền</h2>
+
+        <div class='flex mt-4'>
+          <div>Số tiền</div>
+          <div class='ml-auto'>Ngày Thực Hiện</div>
+          <div class='ml-10'>Trạng thái</div>
+        </div>
+        <div class='flex mt-4 text-[14px]' v-for='withdraw in withdraws' :key='withdraw.id'>
+          <div>
+            {{ $moneyFormat(withdraw.amount) }} VNĐ
+          </div>
+          <div class='ml-auto'>
+            {{ $dayjs(withdraw.createdAt).format('DD/MM/YYYY HH:mm') }}
+          </div>
+          <div class='ml-10'>
+            <van-tag type="primary" v-if='withdraw.status === WithDrawStatus.PENDING'>Đang Xử Lý</van-tag>
+            <van-tag type="danger" v-if='withdraw.status === WithDrawStatus.REJECTED'>Từ Chối</van-tag>
+            <van-tag type="success" v-if='withdraw.status === WithDrawStatus.APPROVED'>Đã Xong</van-tag>
+          </div>
+        </div>
+      </div>
+    </van-popup>
+
   </div>
 </template>
 
@@ -117,6 +144,9 @@ const openFanpage = () => {
   // open link in the new tab
   supporter.value?.fanpage && window.open(supporter.value?.fanpage, '_blank')
 }
+
+// history
+const [showHistory, toggleShowHistory] = useToggle(false)
 </script>
 
 <style scoped></style>
