@@ -1,4 +1,4 @@
-import {ApolloLink, createHttpLink} from '@apollo/client/core';
+import { ApolloLink, createHttpLink } from '@apollo/client/core'
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
 import {provideApolloClient} from "@vue/apollo-composable";

@@ -107,11 +107,6 @@ input CreateLoanInput {
   months: Int!
 }
 
-input CreateLogbookInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 input CreateWithdrawInput {
   """Example field (placeholder)"""
   amount: Float!
@@ -146,6 +141,17 @@ input GetLoansFilter {
   sort: String!
 }
 
+input GetLogbooksFilter {
+  group: [LOGBOOK_GROUP!] = [LOAN, WITHDRAW]
+  limit: Int!
+  offset: Int!
+
+  """Sắp xếp của bình luận"""
+  sort: String!
+  status: [LOGBOOK_STATUS!] = [PENDING, APPROVED, REJECTED]
+  type: [LOGBOOK_TYPE!] = [ADD, SUBTRACT]
+}
+
 input GetUserFilter {
   id: ID!
 }
@@ -155,14 +161,6 @@ input GetUsersFilter {
   exclude: [ID!] = []
   limit: Int!
   name: String
-  offset: Int!
-
-  """Sắp xếp của bình luận"""
-  sort: String!
-}
-
-input GetWithdrawsFilter {
-  limit: Int!
   offset: Int!
 
   """Sắp xếp của bình luận"""
@@ -233,15 +231,33 @@ type Logbook {
   createdAt: Float!
 
   """Nhóm trạng thái"""
-  group: LOGBOOK_STATUS!
+  group: LOGBOOK_GROUP!
   id: ID!
   note: String
+
+  """Nhóm trạng thái"""
+  status: LOGBOOK_STATUS!
+
+  """Nhóm cong tru"""
+  type: LOGBOOK_TYPE!
   updatedAt: Float!
   user: User!
 }
 
-enum LOGBOOK_STATUS {
+enum LOGBOOK_GROUP {
   LOAN
+  WITHDRAW
+}
+
+enum LOGBOOK_STATUS {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+enum LOGBOOK_TYPE {
+  ADD
+  SUBTRACT
 }
 
 type Mutation {
@@ -253,15 +269,12 @@ type Mutation {
   createInfo(input: CreateInfoInput!): Info!
   createLanguage(createLanguageInput: CreateLanguageInput!): Language!
   createLoan(input: CreateLoanInput!): Loan!
-  createLogbook(createLogbookInput: CreateLogbookInput!): Logbook!
-  createWithdraw(input: CreateWithdrawInput!): Withdraw!
+  createWithdraw(input: CreateWithdrawInput!): Logbook!
   removeLanguage(id: Int!): Language!
-  removeLogbook(id: Int!): Logbook!
   signLoan(input: SignLoanInput!): Loan!
   updateCollaborator(input: UpdateCollaboratorInput!): Collaborator!
   updateIdentity(input: UpdateIdentityInput!): Identity!
   updateLanguage(updateLanguageInput: UpdateLanguageInput!): Language!
-  updateLogbook(updateLogbookInput: UpdateLogbookInput!): Logbook!
 }
 
 type Notify {
@@ -288,10 +301,9 @@ type Query {
   info: Info
   language(id: Int!): Language!
   loan: Loan
-  logbook(id: Int!): Logbook!
+  logbooks(filter: GetLogbooksFilter!): [Logbook!]!
   me: User!
   users(filter: GetUsersFilter!): [User!]!
-  withdraws(filter: GetWithdrawsFilter!): [Withdraw!]!
 }
 
 input RangeUsersFilter {
@@ -347,19 +359,15 @@ input UpdateLoanInput {
   user: ID!
 }
 
-input UpdateLogbookInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 type User {
   avatar: String
   balance: Float!
+  bank: Bank
   collaborator: Collaborator
   createdAt: Float!
   email: String
   id: ID!
+  identity: Identity
   info: Info
   loan: Loan
   name: String!
@@ -374,25 +382,4 @@ enum UserRole {
   ADMIN
   SP_ADMIN
   USER
-}
-
-type Withdraw {
-  """Số Tiền Vay"""
-  amount: Float!
-  createdAt: Float!
-  id: ID!
-
-  """Số Tiền Vay"""
-  note: String
-
-  """Trạng thái rut tien"""
-  status: WithDrawStatus!
-  updatedAt: Float!
-  user: User!
-}
-
-enum WithDrawStatus {
-  APPROVED
-  PENDING
-  REJECTED
 }

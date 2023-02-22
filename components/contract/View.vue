@@ -3,17 +3,17 @@
 
 
     <div class='px-6 py-4'>
-      <h5 class="mb-4 text-2xl">Chi Tiết Hợp Đồng</h5>
+      <h5 class="mb-4 text-xl">Chi Tiết Hợp Đồng</h5>
       <div>
         <h5>
-          <div class='text-center text-2xl'>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div class='text-center text-xl'>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
         </h5>
         <h5>
-          <div class='text-center text-2xl'>ĐỘC LẬP - TỰ DO - HANH PHÚC</div>
+          <div class='text-center text-xl'>ĐỘC LẬP - TỰ DO - HANH PHÚC</div>
         </h5>
         <br />
         <h5>
-          <div class='text-center text-2xl'>HỢP ĐỒNG VAY TIỀN</div>
+          <div class='text-center text-xl'>HỢP ĐỒNG VAY TIỀN</div>
         </h5>
         <br />
         <h5>Thông tin cơ bản về khoản vay</h5>
@@ -130,23 +130,17 @@
 
 <script lang="ts" setup>
 import deepmerge from "deepmerge"
-// import { GetLoan_loan } from "~/apollo/queries/__generated__/GetLoan"
-
 
 import { GET_CONTRACT_INFO } from '~/apollo/queries/contract.query'
 import { GetContractInfo, GetContractInfo_me } from '~/apollo/queries/__generated__/GetContractInfo'
 
 const props = defineProps<{
   show: boolean
-  overide: Partial<GetContractInfo_me>
+  overide?: Partial<GetContractInfo_me>
 }>()
 
 const { data } = useLazyAsyncQuery<GetContractInfo>(GET_CONTRACT_INFO)
-const contract = computed<Partial<GetContractInfo_me>>(() => deepmerge(data.value?.me || {}, props.overide))
-
-// defineProps<{
-//   contract: Pick<GetLoan_loan, "id" | "signature">;
-// }>()
+const contract = computed<Partial<GetContractInfo_me>>(() => deepmerge(data.value?.me || {}, props.overide || {}))
 
 const _show = ref(props.show)
 //define emits

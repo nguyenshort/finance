@@ -1,8 +1,8 @@
 import { gql } from '#imports'
 
-export const GET_WITHDRAWS = gql`
-    query GetWithdraws($filter: GetWithdrawsFilter!) {
-        withdraws(filter: $filter) {
+export const GET_LOGBOOKS = gql`
+    query Logbooks($filter: GetLogbooksFilter!) {
+        logbooks(filter: $filter) {
             id
             createdAt
             note

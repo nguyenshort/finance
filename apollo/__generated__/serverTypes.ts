@@ -7,13 +7,23 @@
 // START Enums and Input Objects
 //==============================================================
 
-export enum LoanStatus {
+export enum LOGBOOK_GROUP {
+  LOAN = "LOAN",
+  WITHDRAW = "WITHDRAW",
+}
+
+export enum LOGBOOK_STATUS {
   APPROVED = "APPROVED",
   PENDING = "PENDING",
   REJECTED = "REJECTED",
 }
 
-export enum WithDrawStatus {
+export enum LOGBOOK_TYPE {
+  ADD = "ADD",
+  SUBTRACT = "SUBTRACT",
+}
+
+export enum LoanStatus {
   APPROVED = "APPROVED",
   PENDING = "PENDING",
   REJECTED = "REJECTED",
@@ -47,10 +57,13 @@ export interface CreateWithdrawInput {
   amount: number;
 }
 
-export interface GetWithdrawsFilter {
+export interface GetLogbooksFilter {
+  group?: LOGBOOK_GROUP[] | null;
   limit: number;
   offset: number;
   sort: string;
+  status?: LOGBOOK_STATUS[] | null;
+  type?: LOGBOOK_TYPE[] | null;
 }
 
 export interface SignLoanInput {

@@ -8,23 +8,11 @@
     </div>
 
     <div class="bg-gray-100 py-3 mt-2">
-
       <wallet-balance />
-
       <wallet-withdraw />
-
-
       <div class="px-4 mt-5">
         <wallet-contract />
       </div>
-
-      <div class="mx-4 bg-white flex rounded-md p-4 items-center mt-5" @click='logout'>
-        <van-icon size="25" color="#355cdd" name="down" class='transform rotate-[-90deg]' />
-        <p class="ml-3 text-sm">
-          Đăng Xuất
-        </p>
-      </div>
-
     </div>
 
   </div>
@@ -36,12 +24,6 @@ import { signOut } from '@firebase/auth'
 definePageMeta({
   middleware: ['wallet'],
 })
-
-const logout = async () => {
-  await $fetch('/api/logout', { method: 'POST' })
-  await signOut(faAuth())
-  window.location.href = '/auth'
-}
 </script>
 
 <style>

@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="text-right bg-gradient-to-r from-primary-500 to-primary-700 text-white px-3 py-2 font-semibold">
-      Thẻ ngân hàng của bạn
+    <div class="bg-gradient-to-r from-primary-500 to-primary-700 text-white px-3 py-2 font-semibold flex items-center justify-between">
+      <button @click='$router.push("/")'>
+        <van-icon name="wap-home-o" :size='20' />
+      </button>
+      <span>Thẻ ngân hàng của bạn</span>
     </div>
 
     <div class="atm-card relative overflow-hidden">
@@ -37,7 +40,6 @@ const banks = computed(() => res.data.value?.data || [])
 
 // show only last four card number **** **** **** 5679
 const cardNumber = computed(() => {
-
   const card = bank.value?.account
   if (!card) return ''
   return card.split('').map((c, i) => {

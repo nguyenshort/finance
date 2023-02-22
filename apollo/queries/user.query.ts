@@ -23,3 +23,45 @@ export const CHECK_SIGNED = gql`
         }
     }
 `
+
+export const GET_AGREEMENT = gql`
+    query GetAgreement {
+        me {
+            id
+            info {
+                address
+                born
+                cccd
+                createdAt
+                education
+                income
+                marriage
+                name
+                id
+                job
+                purpose
+            }
+            loan {
+                id
+                amount
+                interest
+                months
+                signature
+                status
+            }
+            bank {
+                id
+                bank
+                account
+                name
+            }
+            identity {
+                id
+                front
+                back
+                avatar
+            }
+            createdAt
+        }
+    }
+`

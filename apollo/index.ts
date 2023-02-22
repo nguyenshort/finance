@@ -7,9 +7,15 @@ export default defineApolloClient({
     wsLinkOptions: {},
     websocketsOnly: false,
     connectToDevTools: false,
-    defaultOptions: {},
-    inMemoryCacheOptions: {},
+    defaultOptions: {
+        watchQuery: {
+            fetchPolicy: 'network-only'
+        }
+    },
+    inMemoryCacheOptions: {
+
+    },
     tokenName: 'apollo:app.token',
     tokenStorage: 'cookie',
-    authHeader: 'Authorization'
+    authHeader: 'Authorization',
 })
