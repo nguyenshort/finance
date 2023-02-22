@@ -78,4 +78,5 @@ export default defineNuxtConfig({
     experimental: {
         externalVue: true,
     },
+    sourcemap: false
 })
