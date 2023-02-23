@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <div class="px-20 mt-5">
+  <div class='relative'>
+
+    <div class='text-primary-500 absolute top-4 right-4'>
+      <van-icon name="wap-home" @click='$router.push("/")' size='20' />
+    </div>
+
+    <div class="px-20 pt-10">
       <img src="/images/contact.jpg" alt="" />
     </div>
     <div class="text-green-500 text-sm text-center mt-3">Nhấn vào nút bên dưới và chờ 3 giây để liên kết Dịch vụ THẨM ĐỊNH VIÊN</div>

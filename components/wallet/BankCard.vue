@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="bg-gradient-to-r from-primary-500 to-primary-700 text-white px-3 py-2 font-semibold flex items-center justify-between">
+      <span>Thẻ ngân hàng của bạn</span>
       <button @click='$router.push("/")'>
         <van-icon name="wap-home-o" :size='20' />
       </button>
-      <span>Thẻ ngân hàng của bạn</span>
     </div>
 
     <div class="atm-card relative overflow-hidden">

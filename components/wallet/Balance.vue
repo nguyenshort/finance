@@ -14,7 +14,7 @@
     <van-popup v-model:show="showHistory" position="bottom" round closeable>
       <div class='px-5 pb-4 pt-4'>
 
-        <h2>Lịch Sử Rút Tiền</h2>
+        <h2>Biến Động Số Dư</h2>
 
         <div class='flex mt-4'>
           <div>Số tiền</div>

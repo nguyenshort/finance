@@ -5,7 +5,11 @@
       left-arrow
       class="bg-gradient-to-r from-primary-500 to-primary-700"
       @click-left="$router.push('/')"
-    />
+    >
+      <template #right>
+        <van-icon name="wap-home" @click='$router.push("/")' size='20' />
+      </template>
+    </van-nav-bar>
 
     <div class='flex items-center justify-center py-8'>
       <div class='w-[120px] h-[120px] rounded-full overflow-hidden'>

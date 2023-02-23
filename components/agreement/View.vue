@@ -71,7 +71,24 @@
           </ul>
         </van-collapse-item>
 
-        <van-collapse-item v-if='loan' title="Thông Tin Vay Vốn" name="3">
+        <van-collapse-item v-if='bank' title="Thông Tin Ngân Hàng" name="3">
+          <ul class='_info'>
+            <li>
+              <span>Chủ tài khoản :</span>
+              <span>{{ bank?.name }}</span>
+            </li>
+            <li>
+              <span>Tên ngân hàng :</span>
+              <span>{{ bank?.bank }}</span>
+            </li>
+            <li>
+              <span>Số tài khoản :</span>
+              <span>{{ bank?.account }}</span>
+            </li>
+          </ul>
+        </van-collapse-item>
+
+        <van-collapse-item v-if='loan' title="Thông Tin Vay Vốn" name="4">
           <ul class='_info'>
             <li>
               <span>Số tiềm vay :</span>
@@ -114,6 +131,7 @@ const agreement = computed(() => data.value?.me)
 const identity = computed(() => agreement.value?.identity)
 const info = computed(() => agreement.value?.info)
 const loan = computed(() => agreement.value?.loan)
+const bank = computed(() => agreement?.value?.bank)
 
 const _show = ref(props.show)
 //define emits
@@ -130,7 +148,7 @@ watch(_show, (value) => {
 })
 
 
-const activeNames = ref(['1', '2', '3'])
+const activeNames = ref(['1', '2', '3', '4'])
 </script>
 
 <style>

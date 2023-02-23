@@ -50,6 +50,10 @@
             :rules="[{ validator: validatorRePassword }]"
         />
 
+        <p v-if='!isLogin' class='text-[12px] text-gray-400 ml-4 mt-3'>
+          Mật khẩu phải gồm 6 tới 20 ký tự bao gồm chữ và số
+        </p>
+
         <div class="text-center text-[13px] mt-[16px] text-gray-600">
           <p v-if="isLogin">Chưa có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng ký ngay</a></p>
           <p v-else>Đã có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng nhập ngay</a></p>
@@ -147,6 +151,10 @@ const validatorPhoneNumber = (val: string) => {
 const validatorPassword = (val: string) => {
   if(val.length < 6) {
     return 'Mật khẩu phải lớn hơn 6 ký tự'
+  }
+
+  if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/g.test(val)) {
+    return 'Mật khẩu phải gồm chữ và số'
   }
 }
 // Repassword

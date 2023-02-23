@@ -5,7 +5,11 @@
         left-arrow
         class="bg-gradient-to-r from-primary-500 to-primary-700"
         @click-left="$router.back()"
-    />
+    >
+      <template #right>
+        <van-icon name="wap-home" @click='$router.push("/")' size='20' />
+      </template>
+    </van-nav-bar>
     <div class="relative _loan-fix-header bg-gradient-to-r from-primary-500 to-primary-700">
 
       <div id="form-loan" class="shadow-lg py-4 px-8 text-center">
