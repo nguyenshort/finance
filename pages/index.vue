@@ -11,24 +11,24 @@
       </client-only>
     </div>
 
-    <div class="bg-gradient-to-r from-primary-500 to-primary-700 py-4">
+    <div class="bg-gradient-to-r from-primary-500 to-primary-700 py-4 px-2">
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
         <van-swipe-item>
           <div
             class="_img"
-            style="background-image: url(/images/vay-tin-chap1.jpeg)"
+            style="background-image: url(/images/banner/banner_111.jpeg)"
           />
         </van-swipe-item>
         <van-swipe-item>
           <div
             class="_img"
-            style="background-image: url(/images/vay-tin-chap2.png)"
+            style="background-image: url(/images/banner/banner_222.jpeg)"
           />
         </van-swipe-item>
         <van-swipe-item>
           <div
             class="_img"
-            style="background-image: url(/images/vay-tin-chap3.jpeg)"
+            style="background-image: url(/images/banner/banner_333.jpeg)"
           />
         </van-swipe-item>
       </van-swipe>
@@ -61,11 +61,36 @@
       </div>
     </van-popup>
 
-    <ul class="px-4 mt-7">
-      <li>• Chỉ mất 3 phút đăng ký</li>
-      <li>• Thông tin chi tiết - Lãi suất minh bạch</li>
-      <li>• Nhận kết quả hồ sơ nhanh chóng</li>
-    </ul>
+    <div class='mt-4 px-4'>
+      <div class='flex flex-wrap -m-3'>
+
+        <div
+          v-for='item in items'
+          :key='item.text'
+          class='w-1/2 p-3'
+        >
+          <div class='shadow p-3 rounded-lg'>
+            <div class='w-[65px] h-[65px]'>
+              <img :src='item.icon' alt='' class='w-full h-full object-cover' />
+            </div>
+            <div>
+              <h4 class='text-[16px] mt-5'>{{ item.text }}</h4>
+
+              <div class='w-full bg-primary-600 h-[4px] rounded-full my-4'></div>
+
+              <h5 class='text-[14px] text-gray-500'>{{ item.des }}</h5>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+<!--    <ul class="px-4 mt-7">-->
+<!--      <li>• Chỉ mất 3 phút đăng ký</li>-->
+<!--      <li>• Thông tin chi tiết - Lãi suất minh bạch</li>-->
+<!--      <li>• Nhận kết quả hồ sơ nhanh chóng</li>-->
+<!--    </ul>-->
   </div>
 </template>
 
@@ -98,6 +123,29 @@ const menu = computed(() => [
     to: '/agreement',
   },
 ])
+
+const items = [
+  {
+    text: 'Uy tín hàng đầu',
+    icon: '/images/banner2/0.png',
+    des: 'Được đánh giá cao về uy tín, chất lượng',
+  },
+  {
+    text: 'Lãi xuất tốt',
+    icon: '/images/banner2/1.png',
+    des: 'Cam kết lãi xuất rẻ nhất thị trường',
+  },
+  {
+    text: 'Bảo mật không tin',
+    icon: '/images/banner2/2.png',
+    des: 'Thông tin cá nhân được bảo mật tuyệt đối',
+  },
+  {
+    text: 'Nhanh chóng',
+    icon: '/images/banner2/3.png',
+    des: 'Thủ tục đơn giản, nhanh chóng, dễ dàng',
+  }
+]
 
 const router = useRouter()
 const [showModal, toggleShowModal] = useToggle(false)
