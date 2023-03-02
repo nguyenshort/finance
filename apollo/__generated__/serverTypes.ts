@@ -66,8 +66,18 @@ export interface GetLogbooksFilter {
   type?: LOGBOOK_TYPE[] | null;
 }
 
+export interface SignInInput {
+  email: string;
+  password: string;
+}
+
 export interface SignLoanInput {
   signature: string;
+}
+
+export interface SignUpInput {
+  email: string;
+  password: string;
 }
 
 export interface UpdateIdentityInput {

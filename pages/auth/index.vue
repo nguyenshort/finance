@@ -60,7 +60,7 @@
         </div>
 
         <div style="margin: 16px;">
-          <van-button round block type="primary" native-type="submit">
+          <van-button round block type="primary" native-type="submit" :loading='loading'>
             {{ isLogin ? 'Đăng Nhập Ngay' : 'Đăng Ký Ngay'}}
           </van-button>
         </div>
@@ -72,64 +72,70 @@
 
 <script lang="ts" setup>
 import {RegisterData} from "~/entities/auth.entity"
-import {FirebaseError} from "@firebase/util";
-import {AuthErrorCodes, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@firebase/auth"
-
+import { SIGN_IN, SIGN_UP } from '~/apollo/mutates/auth.mutate'
+import { SignUp, SignUpVariables } from '~/apollo/mutates/__generated__/SignUp'
+import { SignIn, SignInVariables } from '~/apollo/mutates/__generated__/SignIn'
 
 const from = reactive<RegisterData>({
-  email: '',
-  password: '',
-  rePassword: ''
+  email: '0396094050',
+  password: 'Khoi025',
+  rePassword: 'Khoi025'
 })
 
 const [isLogin, toggleLogin] = useToggle(true)
 /**
  * Section: Form Handle
  */
-const errorExtracted =  (_e: FirebaseError) => {
-  let errorMessage
-  switch (_e.code) {
-    case AuthErrorCodes.USER_DELETED:
-      errorMessage = 'Tài khoản không tồn tại'
-      break
-    case AuthErrorCodes.USER_DISABLED:
-      errorMessage = 'Tài khoản đã bị khóa'
-      break
-    case AuthErrorCodes.INVALID_PASSWORD:
-      errorMessage = 'Mật khẩu không đúng'
-      break
-    case AuthErrorCodes.INVALID_EMAIL:
-      errorMessage = 'Email không hợp lệ'
-      break
-    default:
-      errorMessage = 'Đăng nhập thất bại'
-      break
-  }
+const { mutate: signUp, loading: loadingSignUp } = useMutation<SignUp, SignUpVariables>(SIGN_UP)
+const { mutate: signIn, loading: loadingSignIn } = useMutation<SignIn, SignInVariables>(SIGN_IN)
+const loading = computed(() => loadingSignUp.value || loadingSignIn.value)
 
-  showNotify({
-    type: 'danger',
-    message: errorMessage
-  })
+const writeToken = async (token: string, notify: string) => {
+  try {
+    await $fetch('/api/auth', {
+      method: 'POST',
+      body: JSON.stringify({
+        token
+      })
+    })
+    showNotify({
+      type: 'success',
+      message: notify
+    })
+
+    setTimeout(() => {
+      window.location.href = '/'
+    }, 1000)
+  } catch (e) {
+    //
+  }
 }
-const authAction = async () =>
-{
+const authAction = async () => {
   try {
     if(isLogin.value) {
-      await signInWithEmailAndPassword(faAuth(), from.email + '@gmail.com', from.password)
-      showNotify({
-        type: 'success',
-        message: 'Đăng Nhập Thành Công'
+      const res = await signIn({
+        input: {
+          email: from.email,
+          password: from.password
+        }
       })
+      if (res?.data?.signIn) {
+        await writeToken(res?.data?.signIn, 'Đăng Nhập Thành Công')
+      }
     } else {
-      await createUserWithEmailAndPassword(faAuth(), from.email + '@gmail.com', from.password)
-      showNotify({
-        type: 'success',
-        message: 'Đăng Ký Thành Công'
+      const res = await signUp({
+          input: {
+            email: from.email,
+            password: from.password
+          }
       })
+      if (res?.data?.signUp) {
+        await writeToken(res?.data?.signUp, 'Đăng Ký Thành Công')
+      }
     }
 
   } catch (e) {
-    errorExtracted(e as FirebaseError)
+    // @ts-ignore
   }
 }
 const onSubmit = async () => {

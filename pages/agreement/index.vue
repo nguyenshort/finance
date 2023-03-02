@@ -55,14 +55,11 @@
 </template>
 
 <script lang="ts" setup>
-import { signOut } from '@firebase/auth'
-
 const showConstract = ref(false)
 const showConstract2 = ref(false)
 
 const logout = async () => {
   await $fetch('/api/logout', { method: 'POST' })
-  await signOut(faAuth())
   window.location.href = '/auth'
 }
 </script>

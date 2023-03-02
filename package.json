@@ -31,7 +31,6 @@
     "@pinia/nuxt": "^0.4.6",
     "dayjs": "^1.11.7",
     "deepmerge": "^4.3.0",
-    "firebase": "^9.17.1",
     "pinia": "^2.0.30",
     "vant": "^4.0.10",
     "vue-marquee-text-component": "^2.0.1",
