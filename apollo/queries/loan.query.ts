@@ -24,6 +24,7 @@ export const GET_LOAN = gql`
             interest
             status
             signature
+            createdAt
         }
     }
 `

@@ -5,13 +5,13 @@
 
       <ul class="mt-3">
         <li class="flex bg-gray-100 px-2 py-2">
-          <div class="w-2/6 flex-shrink-0 pl-2">Kì</div>
+          <div class="w-1/6 flex-shrink-0 pl-2">Kì</div>
           <div class="w-3/6 flex-shrink-0">Số Tiền</div>
           <div class="w-full text-right pr-2">Ngày Đóng</div>
         </li>
 
         <li v-for="(item, index) in periods" :key="index" class="flex px-2 py-4 border-b last:border-0">
-          <div class="w-2/6 flex-shrink-0 pl-2">Kì {{ index + 1 }}</div>
+          <div class="w-1/6 flex-shrink-0 pl-2">Kì {{ index + 1 }}</div>
           <div class="w-3/6 flex-shrink-0">{{ item.money }}</div>
           <div class="w-full text-right pr-2">{{ item.time }}</div>
         </li>

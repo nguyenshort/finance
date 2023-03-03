@@ -28,6 +28,14 @@
         <span class='text-[15px]'>Thông tin cá nhân</span>
       </button>
 
+      <button
+        v-if='loan'
+        class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='show = true'
+      >
+        <van-icon name="balance-list" class='mr-3' />
+        <span class='text-[15px]'>Lãi xuất hằng tháng</span>
+      </button>
+
       <contract-collaborator>
         <template #default='{ open }'>
           <button class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='open'>
@@ -51,10 +59,22 @@
     <contract-view v-model:show='showConstract' />
     <agreement-view v-model:show='showConstract2' />
 
+    <loan-interest
+      v-if='loan'
+      v-model:show='show'
+      :interest='loan.interest'
+      :months='loan.months'
+      :amount='loan.amount'
+      :signed-at='loan.createdAt'
+    />
+
   </div>
 </template>
 
 <script lang="ts" setup>
+import { GET_LOAN } from '~/apollo/queries/loan.query'
+import { GetLoan } from '~/apollo/queries/__generated__/GetLoan'
+
 const showConstract = ref(false)
 const showConstract2 = ref(false)
 
@@ -62,6 +82,11 @@ const logout = async () => {
   await $fetch('/api/logout', { method: 'POST' })
   window.location.href = '/auth'
 }
+
+const { data } = useLazyAsyncQuery<GetLoan>(GET_LOAN)
+const loan = computed(() => data.value?.loan)
+
+const [show, toggle] = useToggle(false)
 </script>
 
 <style scoped></style>
