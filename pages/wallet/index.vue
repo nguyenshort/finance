@@ -9,10 +9,10 @@
 
     <div class="bg-gray-100 py-3 mt-2">
       <wallet-balance />
-      <wallet-withdraw />
-      <div class="px-4 mt-5">
-        <wallet-contract />
-      </div>
+<!--      <wallet-withdraw />-->
+<!--      <div class="px-4 mt-5">-->
+<!--        <wallet-contract />-->
+<!--      </div>-->
     </div>
 
   </div>

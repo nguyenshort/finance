@@ -1,8 +1,8 @@
 import { gql } from '#imports'
 
 export const GET_LOGBOOKS = gql`
-    query Logbooks($filter: GetLogbooksFilter!) {
-        logbooks(filter: $filter) {
+    query Logbooks {
+        logbooks {
             id
             createdAt
             note

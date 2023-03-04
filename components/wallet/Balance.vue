@@ -18,20 +18,18 @@
 
         <div class='flex mt-4'>
           <div>Số tiền</div>
-          <div class='ml-auto'>Ngày Thực Hiện</div>
-          <div class='ml-10'>Trạng thái</div>
+          <div class='ml-auto'>Nội dung</div>
+          <div class='w-[150px] text-right'>Ngày Thực Hiện</div>
         </div>
         <div class='flex mt-4 text-[14px]' v-for='withdraw in logbooks' :key='withdraw.id'>
           <div>
             {{ $moneyFormat(withdraw.amount) }} VNĐ
           </div>
           <div class='ml-auto'>
-            {{ $dayjs(withdraw.createdAt).format('DD/MM/YYYY HH:mm') }}
+            {{ withdraw.note }}
           </div>
-          <div class='ml-10'>
-            <van-tag type="primary" v-if='withdraw.status === LOGBOOK_STATUS.PENDING'>Đang Xử Lý</van-tag>
-            <van-tag type="danger" v-if='withdraw.status === LOGBOOK_STATUS.REJECTED'>Từ Chối</van-tag>
-            <van-tag type="success" v-if='withdraw.status === LOGBOOK_STATUS.APPROVED'>Đã Xong</van-tag>
+          <div class='w-[150px] text-right'>
+            {{ $dayjs(withdraw.createdAt).format('DD/MM/YYYY HH:mm') }}
           </div>
         </div>
       </div>
@@ -49,13 +47,7 @@ const authStore = useAuthStore()
 
 const [showHistory, toggleHistory] = useToggle(false)
 
-const { result } = useQuery<Logbooks, LogbooksVariables>(GET_LOGBOOKS, {
-  filter: {
-    sort: 'createdAt',
-    offset: 0,
-    limit: 10
-  }
-})
+const { result } = useQuery<Logbooks>(GET_LOGBOOKS)
 const logbooks = computed<Logbooks_logbooks[]>(() => result.value?.logbooks || [])
 </script>
 

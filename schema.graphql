@@ -149,11 +149,6 @@ input GetLoanFilter {
   user: ID!
 }
 
-input GetLogbooksFilter {
-  status: [LOGBOOK_STATUS!] = [PENDING, APPROVED, REJECTED]
-  type: [LOGBOOK_TYPE!] = [ADD, SUBTRACT]
-}
-
 input GetUserFilter {
   id: ID!
 }
@@ -291,7 +286,7 @@ type Query {
   info: Info
   language(id: Int!): Language!
   loan: Loan
-  logbooks(filter: GetLogbooksFilter!): [Logbook!]!
+  logbooks: [Logbook!]!
   me: User!
   users: [User!]!
   withdraws: [Withdraw!]!
