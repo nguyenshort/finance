@@ -6,7 +6,6 @@ export const GET_LOGBOOKS = gql`
             id
             createdAt
             note
-            status
             amount
         }
     }

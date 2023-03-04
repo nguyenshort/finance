@@ -1,16 +1,20 @@
 export const VERIFIED_DATA = gql`
-    ${IDENTITY_DOC}
-    ${BANK_DOC}
-    ${INFO_DOC}
     query VerifiedData {
         bank {
-            ...BankDoc
+            id
+            account
+            name
+            bank
         }
         info {
-            ...InfoDoc
+            id
+            name
         }
         identity {
-            ...IdentityDoc
+            id
+            front
+            back
+            avatar
         }
     }
 `

@@ -32,6 +32,7 @@ export interface GetLoan_loan {
    * Image chữ ký
    */
   signature: string;
+  createdAt: number;
 }
 
 export interface GetLoan {

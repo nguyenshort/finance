@@ -10,7 +10,7 @@ import { CreateWithdrawInput } from "./../../__generated__/serverTypes";
 // ====================================================
 
 export interface CreateWithdraw_createWithdraw {
-  __typename: "Logbook";
+  __typename: "Withdraw";
   id: string;
 }
 

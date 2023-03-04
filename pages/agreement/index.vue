@@ -11,11 +11,7 @@
       </template>
     </van-nav-bar>
 
-    <div class='flex items-center justify-center py-8'>
-      <div class='w-[120px] h-[120px] rounded-full overflow-hidden'>
-        <img src='/images/user.png' alt='' class='w-full h-full object-cover' />
-      </div>
-    </div>
+    <agreement-avatar />
 
     <div class='px-7'>
       <button class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='showConstract = true'>

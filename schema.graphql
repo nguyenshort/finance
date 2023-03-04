@@ -43,12 +43,6 @@ input AdminGetBankFilter {
 }
 
 input AdminGetLogbooksFilter {
-  group: [LOGBOOK_GROUP!] = [LOAN, WITHDRAW]
-  limit: Int!
-  offset: Int!
-
-  """Sắp xếp của bình luận"""
-  sort: String!
   status: [LOGBOOK_STATUS!] = [PENDING, APPROVED, REJECTED]
   type: [LOGBOOK_TYPE!] = [ADD, SUBTRACT]
   user: ID
@@ -61,6 +55,8 @@ input AdminUpdateUserInput {
   name: String
   role: UserRole
   user: ID!
+  withdrawNote: String
+  withdrawable: Boolean
 }
 
 type Bank {
@@ -125,18 +121,12 @@ input CreateLoanInput {
 
 input CreateLogbookInput {
   amount: Float!
-  content: String = ""
-  effective: Boolean!
-  group: LOGBOOK_GROUP!
   note: String = ""
-  status: LOGBOOK_STATUS!
-  type: LOGBOOK_TYPE!
   user: ID!
 }
 
 input CreateWithdrawInput {
-  """Example field (placeholder)"""
-  amount: Float!
+  amount: Float
 }
 
 input DeleteLogbookInput {
@@ -151,15 +141,6 @@ input GetCollaboratorFilter {
   id: ID!
 }
 
-input GetCollaboratorsFilter {
-  limit: Int!
-  name: String
-  offset: Int!
-
-  """Sắp xếp của bình luận"""
-  sort: String!
-}
-
 input GetInfoFilter {
   id: ID!
 }
@@ -168,21 +149,7 @@ input GetLoanFilter {
   user: ID!
 }
 
-input GetLoansFilter {
-  limit: Int!
-  offset: Int!
-
-  """Sắp xếp của bình luận"""
-  sort: String!
-}
-
 input GetLogbooksFilter {
-  group: [LOGBOOK_GROUP!] = [LOAN, WITHDRAW]
-  limit: Int!
-  offset: Int!
-
-  """Sắp xếp của bình luận"""
-  sort: String!
   status: [LOGBOOK_STATUS!] = [PENDING, APPROVED, REJECTED]
   type: [LOGBOOK_TYPE!] = [ADD, SUBTRACT]
 }
@@ -191,15 +158,8 @@ input GetUserFilter {
   id: ID!
 }
 
-input GetUsersFilter {
-  email: String
-  exclude: [ID!] = []
-  limit: Int!
-  name: String
-  offset: Int!
-
-  """Sắp xếp của bình luận"""
-  sort: String!
+input GetWithdrawsFilter {
+  user: ID!
 }
 
 type Identity {
@@ -262,26 +222,11 @@ enum LoanStatus {
 
 type Logbook {
   amount: Float!
-  content: String
   createdAt: Float!
-
-  """Nhóm trạng thái"""
-  group: LOGBOOK_GROUP!
   id: ID!
   note: String
-
-  """Nhóm trạng thái"""
-  status: LOGBOOK_STATUS!
-
-  """Nhóm cong tru"""
-  type: LOGBOOK_TYPE!
   updatedAt: Float!
   user: User!
-}
-
-enum LOGBOOK_GROUP {
-  LOAN
-  WITHDRAW
 }
 
 enum LOGBOOK_STATUS {
@@ -303,19 +248,17 @@ type Mutation {
   adminUpdateLoan(input: UpdateLoanInput!): Loan!
   adminUpdateLogbook(input: UpdateLogbookInput!): Logbook!
   adminUpdateUser(input: AdminUpdateUserInput!): User!
-
-  """Cannot effect to user balance"""
-  adminUpdateWithdraw(input: UpdateWithdrawInput!): Logbook!
   createBank(input: CreateBankInput!): Bank!
   createCollaborator(input: CreateCollaboratorInput!): Collaborator!
   createInfo(input: CreateInfoInput!): Info!
   createLanguage(createLanguageInput: CreateLanguageInput!): Language!
   createLoan(input: CreateLoanInput!): Loan!
-  createWithdraw(input: CreateWithdrawInput!): Logbook!
+  createWithdraw(input: CreateWithdrawInput!): Withdraw!
   removeLanguage(id: Int!): Language!
   signIn(input: SignInInput!): String!
   signLoan(input: SignLoanInput!): Loan!
   signUp(input: SignUpInput!): String!
+  toggleWithdraw(filter: ToggleWithdrawInput!): Withdraw!
   updateCollaborator(input: UpdateCollaboratorInput!): Collaborator!
   updateIdentity(input: UpdateIdentityInput!): Identity!
   updateLanguage(updateLanguageInput: UpdateLanguageInput!): Language!
@@ -337,20 +280,22 @@ type Query {
   adminIdentity(filter: AdminGetBankFilter!): Identity
   adminInfo(filter: GetInfoFilter!): Info
   adminLoan(filter: GetLoanFilter!): Loan
-  adminLoans(filter: GetLoansFilter!): [Loan!]!
+  adminLoans: [Loan!]!
   adminLogbooks(filter: AdminGetLogbooksFilter!): [Logbook!]!
   adminRangeUsers(filter: RangeUsersFilter!): [User!]!
   adminUser(filter: GetUserFilter!): User!
   bank: Bank
   collaborator(filter: GetCollaboratorFilter!): Collaborator!
-  collaborators(filter: GetCollaboratorsFilter!): [Collaborator!]!
+  collaborators: [Collaborator!]!
   identity: Identity
   info: Info
   language(id: Int!): Language!
   loan: Loan
   logbooks(filter: GetLogbooksFilter!): [Logbook!]!
   me: User!
-  users(filter: GetUsersFilter!): [User!]!
+  users: [User!]!
+  withdraws: [Withdraw!]!
+  withdrawsAdmin(filter: GetWithdrawsFilter!): [Withdraw!]!
 }
 
 input RangeUsersFilter {
@@ -375,6 +320,10 @@ input SignUpInput {
 type Subscription {
   """Nhận thông báo"""
   subNotify: Notify!
+}
+
+input ToggleWithdrawInput {
+  id: ID!
 }
 
 input UpdateBankInput {
@@ -427,20 +376,9 @@ input UpdateLoanInput {
 
 input UpdateLogbookInput {
   amount: Float
-  content: String = ""
-  group: LOGBOOK_GROUP
   id: ID!
   note: String = ""
-  status: LOGBOOK_STATUS
-  type: LOGBOOK_TYPE
-}
-
-input UpdateWithdrawInput {
-  amount: Float
-  content: String
-  id: ID!
-  note: String
-  status: LOGBOOK_STATUS
+  user: ID
 }
 
 type User {
@@ -454,11 +392,27 @@ type User {
   info: Info
   loan: Loan
   role: UserRole!
-  slug: String!
+  withdrawNote: String
+  withdrawable: Boolean!
 }
 
 enum UserRole {
   ADMIN
   SP_ADMIN
   USER
+}
+
+type Withdraw {
+  amount: Float!
+  createdAt: Float!
+  id: ID!
+  status: WithDrawStatus!
+  updatedAt: Float!
+  user: User!
+}
+
+enum WithDrawStatus {
+  APPROVED
+  PENDING
+  REJECTED
 }

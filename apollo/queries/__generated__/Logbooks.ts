@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { GetLogbooksFilter, LOGBOOK_STATUS } from "./../../__generated__/serverTypes";
+import { GetLogbooksFilter } from "./../../__generated__/serverTypes";
 
 // ====================================================
 // GraphQL query operation: Logbooks
@@ -14,10 +14,6 @@ export interface Logbooks_logbooks {
   id: string;
   createdAt: number;
   note: string | null;
-  /**
-   * Nhóm trạng thái
-   */
-  status: LOGBOOK_STATUS;
   amount: number;
 }
 
