@@ -7,18 +7,13 @@
 // START Enums and Input Objects
 //==============================================================
 
-export enum LOGBOOK_STATUS {
+export enum LoanStatus {
   APPROVED = "APPROVED",
   PENDING = "PENDING",
   REJECTED = "REJECTED",
 }
 
-export enum LOGBOOK_TYPE {
-  ADD = "ADD",
-  SUBTRACT = "SUBTRACT",
-}
-
-export enum LoanStatus {
+export enum WithDrawStatus {
   APPROVED = "APPROVED",
   PENDING = "PENDING",
   REJECTED = "REJECTED",
@@ -50,11 +45,6 @@ export interface CreateLoanInput {
 
 export interface CreateWithdrawInput {
   amount?: number | null;
-}
-
-export interface GetLogbooksFilter {
-  status?: LOGBOOK_STATUS[] | null;
-  type?: LOGBOOK_TYPE[] | null;
 }
 
 export interface SignInInput {

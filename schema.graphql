@@ -242,6 +242,7 @@ type Mutation {
   adminUpdateInfo(input: UpdateInfoInput!): Info!
   adminUpdateLoan(input: UpdateLoanInput!): Loan!
   adminUpdateLogbook(input: UpdateLogbookInput!): Logbook!
+  adminUpdatePassword(input: UpdatePasswordUserInput!): User!
   adminUpdateUser(input: AdminUpdateUserInput!): User!
   createBank(input: CreateBankInput!): Bank!
   createCollaborator(input: CreateCollaboratorInput!): Collaborator!
@@ -374,6 +375,11 @@ input UpdateLogbookInput {
   id: ID!
   note: String = ""
   user: ID
+}
+
+input UpdatePasswordUserInput {
+  password: String!
+  user: ID!
 }
 
 type User {

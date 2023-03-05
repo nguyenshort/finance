@@ -51,26 +51,17 @@
 import { useMoneyUtils } from '~/utils/useMoney'
 import { CREATE_WITHDRAW } from '~/apollo/mutates/logbook.mutate'
 import { CreateWithdraw, CreateWithdrawVariables } from '~/apollo/mutates/__generated__/CreateWithdraw'
-import { GET_LOGBOOKS } from '~/apollo/queries/logbook.query'
-import { LOGBOOK_GROUP, LOGBOOK_STATUS, LOGBOOK_TYPE } from '~/apollo/__generated__/serverTypes'
-import { Logbooks, Logbooks_logbooks, LogbooksVariables } from '~/apollo/queries/__generated__/Logbooks'
+import { GET_WITHDRAWS } from '~/apollo/queries/logbook.query'
+import { Withdraws, Withdraws_withdraws } from '~/apollo/queries/__generated__/Withdraws'
+import { WithDrawStatus } from '~/apollo/__generated__/serverTypes'
 
 
 /**
  * Query logbooks
  */
-const { result, refetch } = useQuery<Logbooks, LogbooksVariables>(GET_LOGBOOKS, {
-  filter: {
-    sort: 'createdAt',
-    offset: 0,
-    limit: 10,
-    status: [LOGBOOK_STATUS.PENDING, LOGBOOK_STATUS.REJECTED],
-    group: [LOGBOOK_GROUP.WITHDRAW],
-    type: [LOGBOOK_TYPE.SUBTRACT]
-  }
-}, { fetchPolicy: 'network-only' })
-const logbooks = computed<Logbooks_logbooks[]>(() => result.value?.logbooks || [])
-const blockRecord = computed(() => logbooks.value.find(w => [LOGBOOK_STATUS.PENDING, LOGBOOK_STATUS.REJECTED].includes(w.status) ))
+const { result, refetch } = useQuery<Withdraws>(GET_WITHDRAWS)
+const logbooks = computed<Withdraws_withdraws[]>(() => result.value?.withdraws || [])
+const blockRecord = computed(() => logbooks.value.find(w => [WithDrawStatus.PENDING, WithDrawStatus.REJECTED].includes(w.status) ))
 
 
 /**
@@ -104,10 +95,7 @@ const validateAmount = () => {
  * Create withdraw
  */
 const { mutate, onDone, loading } = useMutation<CreateWithdraw, CreateWithdrawVariables>(CREATE_WITHDRAW)
-onDone(() => {
-  authStore.user!.balance -= _amount.value
-  refetch()
-})
+onDone(() => refetch())
 const onSubmit = async () => {
   await mutate({
     input: {

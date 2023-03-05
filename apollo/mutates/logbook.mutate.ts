@@ -4,6 +4,7 @@ export const CREATE_WITHDRAW = gql`
     mutation CreateWithdraw($input: CreateWithdrawInput!) {
         createWithdraw(input: $input) {
             id
+            amount
         }
     }
 `

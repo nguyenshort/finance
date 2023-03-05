@@ -3,18 +3,21 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { WithDrawStatus } from "./../../__generated__/serverTypes";
+
 // ====================================================
-// GraphQL query operation: Logbooks
+// GraphQL query operation: Withdraws
 // ====================================================
 
-export interface Logbooks_logbooks {
-  __typename: "Logbook";
+export interface Withdraws_withdraws {
+  __typename: "Withdraw";
   id: string;
   createdAt: number;
-  note: string | null;
   amount: number;
+  status: WithDrawStatus;
+  updatedAt: number;
 }
 
-export interface Logbooks {
-  logbooks: Logbooks_logbooks[];
+export interface Withdraws {
+  withdraws: Withdraws_withdraws[];
 }

@@ -10,3 +10,15 @@ export const GET_LOGBOOKS = gql`
         }
     }
 `
+
+export const GET_WITHDRAWS = gql`
+    query Withdraws {
+        withdraws {
+            id
+            createdAt
+            amount
+            status
+            updatedAt
+        }
+    }
+`
