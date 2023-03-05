@@ -9,10 +9,12 @@ export const BANK_DOC = gql`
 `
 
 export const GET_BANK = gql`
-  ${BANK_DOC}
   query GetBank {
     bank {
-      ...BankDoc
+        id
+        account
+        name
+        bank
     }
   }
 `
