@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     app: {
         head: {
-            title: 'Nuxt 3 + NestJS + Vite + TailwindCSS + Pinia + Vant',
+            title: 'Tài Chính Hoàng Kim',
             meta: [
               // disable zooming on mobile
               { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui' },
