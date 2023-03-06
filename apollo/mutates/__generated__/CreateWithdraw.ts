@@ -12,6 +12,7 @@ import { CreateWithdrawInput } from "./../../__generated__/serverTypes";
 export interface CreateWithdraw_createWithdraw {
   __typename: "Withdraw";
   id: string;
+  amount: number;
 }
 
 export interface CreateWithdraw {

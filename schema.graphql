@@ -48,6 +48,10 @@ input AdminGetLogbooksFilter {
   user: ID
 }
 
+input AdminRemoveUserInput {
+  user: ID!
+}
+
 input AdminUpdateUserInput {
   avatar: String
   balance: Float
@@ -238,6 +242,7 @@ enum LOGBOOK_TYPE {
 type Mutation {
   adminCreateLogbook(input: CreateLogbookInput!): Logbook!
   adminDeleteLogbook(input: DeleteLogbookInput!): Logbook!
+  adminRemoveUser(input: AdminRemoveUserInput!): User!
   adminUpdateBank(input: UpdateBankInput!): Bank!
   adminUpdateInfo(input: UpdateInfoInput!): Info!
   adminUpdateLoan(input: UpdateLoanInput!): Loan!
@@ -320,6 +325,7 @@ type Subscription {
 
 input ToggleWithdrawInput {
   id: ID!
+  status: WithDrawStatus!
 }
 
 input UpdateBankInput {
