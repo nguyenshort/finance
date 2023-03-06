@@ -150,7 +150,7 @@ const items = [
 const router = useRouter()
 const [showModal, toggleShowModal] = useToggle(false)
 const navigatorHandle = (to: string) => {
-  if (isUnverified.value) {
+  if (isUnverified.value && to !== '/agreement') {
     toggleShowModal()
   } else {
     router.push(to)

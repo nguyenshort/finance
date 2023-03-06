@@ -149,7 +149,7 @@ const onSubmit = async () => {
  */
 
 const validatorPhoneNumber = (val: string) => {
-  if(!/(84|0[3|5|7|8|9])+([0-9]{8})/g.test(val)) {
+  if(!/(84|0[3|5|7|8|9])+([0-9]{8})/g.test(val) || val.length > 10) {
     return 'Số điện thoại không hợp lệ'
   }
 }

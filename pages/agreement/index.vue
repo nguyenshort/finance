@@ -14,25 +14,25 @@
     <agreement-avatar />
 
     <div class='px-7'>
-      <button class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='showConstract = true'>
+      <button v-if='isSign' class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='showConstract = true'>
         <van-icon name="balance-list" class='mr-3'  />
         <span class='text-[15px]'>Hợp Đồng Vay</span>
       </button>
 
-      <button class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='showConstract2 = true'>
+      <button v-if='isSign' class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='showConstract2 = true'>
         <van-icon name="manager" class='mr-3' />
         <span class='text-[15px]'>Thông tin cá nhân</span>
       </button>
 
       <button
-        v-if='loan'
+        v-if='isSign'
         class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='show = true'
       >
         <van-icon name="balance-list" class='mr-3' />
         <span class='text-[15px]'>Lãi xuất hằng tháng</span>
       </button>
 
-      <contract-collaborator>
+      <contract-collaborator v-if='isSign'>
         <template #default='{ open }'>
           <button class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='open'>
             <van-icon name="service" class='mr-3' />
@@ -56,12 +56,12 @@
     <agreement-view v-model:show='showConstract2' />
 
     <loan-interest
-      v-if='loan'
+      v-if='isSign'
       v-model:show='show'
-      :interest='loan.interest'
-      :months='loan.months'
-      :amount='loan.amount'
-      :signed-at='loan.createdAt'
+      :interest='isSign.interest'
+      :months='isSign.months'
+      :amount='isSign.amount'
+      :signed-at='isSign.createdAt'
     />
 
   </div>
@@ -80,7 +80,7 @@ const logout = async () => {
 }
 
 const { data } = useLazyAsyncQuery<GetLoan>(GET_LOAN)
-const loan = computed(() => data.value?.loan)
+const isSign = computed(() => data.value?.loan?.signature)
 
 const [show, toggle] = useToggle(false)
 </script>

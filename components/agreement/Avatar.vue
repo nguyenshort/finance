@@ -2,6 +2,7 @@
   <div class='flex items-center justify-center py-8'>
     <div class='w-[120px] h-[120px] rounded-full overflow-hidden'>
       <img v-if='avatar' :src='$cdn(avatar)' alt='' class='w-full h-full object-cover' />
+      <img v-else src='/images/user.png' alt='' class='w-full h-full object-cover' />
     </div>
   </div>
 </template>

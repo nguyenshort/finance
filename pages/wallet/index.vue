@@ -19,8 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { signOut } from '@firebase/auth'
-
 definePageMeta({
   middleware: ['wallet'],
 })

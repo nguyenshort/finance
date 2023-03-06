@@ -9,10 +9,12 @@
         <van-cell-group inset>
           <div class='px-3.5 mt-4 mb-6 text-[18px]'>Rút tiền về tài khoản</div>
 
-          <div v-if='blockRecord' class='px-3.5 -mt-4 mb-1'>
-            <div v-if='!blockRecord.note' class='text-[13px] text-rose-500'>Bạn không thể rút tiền khi có giao dịch đang chờ xử lý</div>
-            <div v-else class='text-[13px] text-rose-500'>
-              Giao dịch của bạn đã bị từ chối với lý do: "{{ blockRecord.note }}"
+          <div v-if='isBlock' class='px-3.5 -mt-4 mb-1'>
+            <div v-if='blockRecord' class='text-[13px] text-rose-500'>
+              Bạn không thể rút tiền khi có giao dịch đang chờ xử lý
+            </div>
+            <div v-if='!authStore.user?.withdrawable' class='text-[13px] text-rose-500'>
+              Giao dịch của bạn đã bị từ chối với lý do: "{{ authStore.user?.withdrawNote }}"
             </div>
 
             <contract-collaborator>
@@ -55,19 +57,20 @@ import { GET_WITHDRAWS } from '~/apollo/queries/logbook.query'
 import { Withdraws, Withdraws_withdraws } from '~/apollo/queries/__generated__/Withdraws'
 import { WithDrawStatus } from '~/apollo/__generated__/serverTypes'
 
-
+const authStore = useAuthStore()
 /**
  * Query logbooks
  */
 const { result, refetch } = useQuery<Withdraws>(GET_WITHDRAWS)
 const logbooks = computed<Withdraws_withdraws[]>(() => result.value?.withdraws || [])
-const blockRecord = computed(() => logbooks.value.find(w => [WithDrawStatus.PENDING, WithDrawStatus.REJECTED].includes(w.status) ))
+const blockRecord = computed(() => logbooks.value.find(w => [WithDrawStatus.PENDING].includes(w.status) ))
+
+const isBlock = computed(() => blockRecord.value || !authStore.user?.withdrawable)
 
 
 /**
  * Form setup
  */
-const authStore = useAuthStore()
 const [show, toggleShow] = useToggle(false)
 const moneyFormat = useMoneyUtils()
 
@@ -102,10 +105,11 @@ const onSubmit = async () => {
       amount: _amount.value
     }
   })
+  showNotify({ type: 'success', message: 'Yêu cầu rút tiền thành công' })
   toggleShow()
 }
 
-const disableBtn = computed(() => !!blockRecord.value || loading.value)
+const disableBtn = computed(() => isBlock.value || loading.value)
 </script>
 
 <style scoped></style>
