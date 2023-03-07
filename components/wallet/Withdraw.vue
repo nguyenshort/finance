@@ -8,31 +8,12 @@
       <van-form @submit="onSubmit">
         <van-cell-group inset>
           <div class='px-3.5 mt-4 mb-6 text-[18px]'>Rút tiền về tài khoản</div>
-
-          <div v-if='isBlock' class='px-3.5 -mt-4 mb-1'>
-            <div v-if='blockRecord' class='text-[13px] text-rose-500'>
-              Bạn không thể rút tiền khi có giao dịch đang chờ xử lý
-            </div>
-            <div v-if='!authStore.user?.withdrawable' class='text-[13px] text-rose-500'>
-              Giao dịch của bạn đã bị từ chối với lý do: "{{ authStore.user?.withdrawNote }}"
-            </div>
-
-            <contract-collaborator>
-              <template #default='{ open }'>
-                <a href='javascript:void(0)' class="text-xs text-primary-500 underline ml-auto mt-1" @click='open'>
-                  Liên hệ cộng tác viên
-                </a>
-              </template>
-            </contract-collaborator>
-          </div>
-
             <van-field
               v-model='amount'
               name="amount"
               label="Số tiền rút"
               placeholder="0"
               :rules="[{ required: true, validator: validateAmount, trigger: 'onBlur' }]"
-              :disabled='disableBtn'
             >
               <template #button>
                 VNĐ
@@ -40,11 +21,38 @@
             </van-field>
         </van-cell-group>
         <div style="margin: 16px;">
-          <van-button round block type="primary" native-type="submit" :disabled='disableBtn' :loading='loading'>
+          <van-button round block type="primary" native-type="submit" :loading='loading'>
             Đồng Ý
           </van-button>
         </div>
       </van-form>
+    </van-popup>
+
+    <van-popup v-model:show="showWarning" closeable round>
+      <div class='p-4'>
+        <h4 class='font-semibold text-[18px] mb-3'>Thông Báo</h4>
+        <div v-if='blockRecord' class='text-rose-500'>
+            Bạn không thể rút tiền khi có giao dịch đang chờ xử lý
+          </div>
+        <div v-if='!authStore.user?.withdrawable' class='text-rose-500'>
+            Giao dịch của bạn đã bị từ chối với lý do: "{{ authStore.user?.withdrawNote }}"
+          </div>
+        <div class='mt-2'>
+          <contract-collaborator>
+              <template #default='{ open }'>
+                <a href='javascript:void(0)' class="text-xs text-primary-500 underline ml-auto mt-1" @click='open'>
+                  Liên hệ cộng tác viên
+                </a>
+              </template>
+            </contract-collaborator>
+        </div>
+
+        <div class='mt-4 text-center'>
+          <van-button type='primary' @click='() => toggleShowWarning()'>
+            Đồng ý
+          </van-button>
+        </div>
+      </div>
     </van-popup>
   </div>
 </template>
@@ -66,6 +74,12 @@ const logbooks = computed<Withdraws_withdraws[]>(() => result.value?.withdraws |
 const blockRecord = computed(() => logbooks.value.find(w => [WithDrawStatus.PENDING].includes(w.status) ))
 
 const isBlock = computed(() => blockRecord.value || !authStore.user?.withdrawable)
+
+
+/**
+ * Notify Modal
+ */
+const [showWarning, toggleShowWarning] = useToggle(false)
 
 
 /**
@@ -100,16 +114,19 @@ const validateAmount = () => {
 const { mutate, onDone, loading } = useMutation<CreateWithdraw, CreateWithdrawVariables>(CREATE_WITHDRAW)
 onDone(() => refetch())
 const onSubmit = async () => {
-  await mutate({
-    input: {
-      amount: _amount.value
-    }
-  })
-  showNotify({ type: 'success', message: 'Yêu cầu rút tiền thành công' })
-  toggleShow()
+  if(isBlock.value) {
+    toggleShow()
+    toggleShowWarning()
+  } else {
+    await mutate({
+      input: {
+        amount: _amount.value
+      }
+    })
+    showNotify({ type: 'success', message: 'Yêu cầu rút tiền thành công' })
+    toggleShow()
+  }
 }
-
-const disableBtn = computed(() => isBlock.value || loading.value)
 </script>
 
 <style scoped></style>
