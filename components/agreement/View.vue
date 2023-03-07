@@ -43,6 +43,10 @@
               <span>{{ info?.born.join('/') }}</span>
             </li>
             <li>
+              <span>Số điện thoại :</span>
+              <span>{{ authStore?.user?.email }}</span>
+            </li>
+            <li>
               <span>Địa chỉ :</span>
               <span>{{ info?.address}}</span>
             </li>
@@ -151,6 +155,8 @@ watch(_show, (value) => {
 
 
 const activeNames = ref(['1', '2', '3', '4'])
+
+const authStore = useAuthStore()
 </script>
 
 <style>

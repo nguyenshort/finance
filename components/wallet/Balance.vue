@@ -39,9 +39,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Logbooks, Logbooks_logbooks, LogbooksVariables } from '~/apollo/queries/__generated__/Logbooks'
+import { Logbooks, Logbooks_logbooks } from '~/apollo/queries/__generated__/Logbooks'
 import { GET_LOGBOOKS } from '~/apollo/queries/logbook.query'
-import { LOGBOOK_STATUS } from '~/apollo/__generated__/serverTypes'
 
 const authStore = useAuthStore()
 

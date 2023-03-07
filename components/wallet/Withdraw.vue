@@ -28,27 +28,15 @@
       </van-form>
     </van-popup>
 
-    <van-popup v-model:show="showWarning" closeable round>
+    <van-popup v-model:show="showWarning2" closeable round>
       <div class='p-4'>
         <h4 class='font-semibold text-[18px] mb-3'>Thông Báo</h4>
-        <div v-if='blockRecord' class='text-rose-500'>
-            Bạn không thể rút tiền khi có giao dịch đang chờ xử lý
-          </div>
-        <div v-if='!authStore.user?.withdrawable' class='text-rose-500'>
-            Giao dịch của bạn đã bị từ chối với lý do: "{{ authStore.user?.withdrawNote }}"
-          </div>
-        <div class='mt-2'>
-          <contract-collaborator>
-              <template #default='{ open }'>
-                <a href='javascript:void(0)' class="text-xs text-primary-500 underline ml-auto mt-1" @click='open'>
-                  Liên hệ cộng tác viên
-                </a>
-              </template>
-            </contract-collaborator>
+        <div class='text-rose-500 font-semibold text-[20px]'>
+          Yêu cầu rút tiền thành công
         </div>
 
         <div class='mt-4 text-center'>
-          <van-button type='primary' @click='() => toggleShowWarning()'>
+          <van-button type='primary' @click='() => toggleShowWarning2()'>
             Đồng ý
           </van-button>
         </div>
@@ -80,6 +68,9 @@ const isBlock = computed(() => blockRecord.value || !authStore.user?.withdrawabl
  * Notify Modal
  */
 const [showWarning, toggleShowWarning] = useToggle(false)
+
+const [showWarning2, toggleShowWarning2] = useToggle(false)
+
 
 
 /**
@@ -123,8 +114,8 @@ const onSubmit = async () => {
         amount: _amount.value
       }
     })
-    showNotify({ type: 'success', message: 'Yêu cầu rút tiền thành công' })
     toggleShow()
+    toggleShowWarning2()
   }
 }
 </script>
