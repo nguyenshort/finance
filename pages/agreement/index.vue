@@ -58,10 +58,10 @@
     <loan-interest
       v-if='isSign'
       v-model:show='show'
-      :interest='isSign.interest'
-      :months='isSign.months'
-      :amount='isSign.amount'
-      :signed-at='isSign.createdAt'
+      :interest='loan.interest'
+      :months='loan.months'
+      :amount='loan.amount'
+      :signed-at='loan.createdAt'
     />
 
   </div>
@@ -80,6 +80,7 @@ const logout = async () => {
 }
 
 const { data } = useLazyAsyncQuery<GetLoan>(GET_LOAN)
+const loan = computed(() => data.value?.loan)
 const isSign = computed(() => data.value?.loan?.signature)
 
 const [show, toggle] = useToggle(false)
