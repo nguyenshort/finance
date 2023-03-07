@@ -43,7 +43,7 @@
           <contract-collaborator>
             <template #default='{ open }'>
               <a href='javascript:void(0)' class="text-[18px] text-primary-500 underline ml-auto mt-1 uppercase" @click='open'>
-                Liên hệ thẩm đin viên
+                Liên hệ thẩm định viên
               </a>
             </template>
           </contract-collaborator>
