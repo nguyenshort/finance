@@ -28,10 +28,39 @@
       </van-form>
     </van-popup>
 
+    <van-popup v-model:show="showWarning" closeable round>
+      <div class='p-4'>
+        <h4 class='font-semibold text-[18px] mb-3'>Thông Báo</h4>
+        <div class='text-rose-500 text-[20px] font-semibold uppercase'>
+          <div v-if='blockRecord'>
+            Bạn không thể rút tiền khi có giao dịch đang chờ xử lý
+          </div>
+          <div v-if='!authStore.user?.withdrawable'>
+            Giao dịch của bạn đã bị từ chối với lý do: "{{ authStore.user?.withdrawNote }}"
+          </div>
+        </div>
+        <div class='mt-2'>
+          <contract-collaborator>
+            <template #default='{ open }'>
+              <a href='javascript:void(0)' class="text-[20px] text-primary-500 underline ml-auto mt-1 uppercase" @click='open'>
+                Liên hệ thẩm đin viên
+              </a>
+            </template>
+          </contract-collaborator>
+        </div>
+
+        <div class='mt-4 text-center'>
+          <van-button type='primary' @click='() => toggleShowWarning()'>
+            Đồng ý
+          </van-button>
+        </div>
+      </div>
+    </van-popup>
+
     <van-popup v-model:show="showWarning2" closeable round>
       <div class='p-4'>
         <h4 class='font-semibold text-[18px] mb-3'>Thông Báo</h4>
-        <div class='text-rose-500 font-semibold text-[20px]'>
+        <div class='text-primary-500 font-semibold text-[20px]'>
           Yêu cầu rút tiền thành công
         </div>
 
