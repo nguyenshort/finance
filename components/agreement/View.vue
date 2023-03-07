@@ -14,19 +14,21 @@
           title="CCCD/CMND"
           name="1"
         >
-          <div class='flex flex-col items-center'>
-            <img :src='$cdn(identity?.front)' alt='' />
-            <span class='mt-2'>Mặt trước</span>
-          </div>
+          <div class='flex -mx-1.5'>
+            <div class='flex flex-col items-center px-1.5 w-1/3'>
+              <img :src='$cdn(identity?.front)' alt='' />
+              <span class='mt-2'>Mặt trước</span>
+            </div>
 
-          <div class='flex flex-col items-center mt-3'>
-            <img :src='$cdn(identity?.back)' alt='' />
-            <span class='mt-2'>Mặt sau</span>
-          </div>
+            <div class='flex flex-col items-center px-1.5 w-1/3'>
+              <img :src='$cdn(identity?.back)' alt='' />
+              <span class='mt-2'>Mặt sau</span>
+            </div>
 
-          <div class='flex flex-col items-center mt-3'>
-            <img :src='$cdn(identity?.avatar)' alt='' />
-            <span class='mt-2'>Ảnh cá nhân</span>
+            <div class='flex flex-col items-center px-1.5 w-1/3'>
+              <img :src='$cdn(identity?.avatar)' alt='' />
+              <span class='mt-2'>Ảnh cá nhân</span>
+            </div>
           </div>
         </van-collapse-item>
 

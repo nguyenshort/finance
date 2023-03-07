@@ -43,9 +43,10 @@ const cardNumber = computed(() => {
   const card = bank.value?.account
   if (!card) return ''
   return card.split('').map((c, i) => {
-    if (i < card.length - 4) return '*'
+    if (i < card.length - 3) return '*'
     return c
-  }).join('')
+  })
+    .join('')
 })
 
 const currentBank = computed(() => {

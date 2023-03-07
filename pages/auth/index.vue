@@ -54,6 +54,10 @@
           Mật khẩu phải gồm 6 tới 20 ký tự bao gồm chữ và số
         </p>
 
+        <div v-if='error' class='text-[12px] text-rose-600 ml-4 mt-3 text-center'>
+          {{ error }}
+        </div>
+
         <div class="text-center text-[13px] mt-[16px] text-gray-600">
           <p v-if="isLogin">Chưa có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng ký ngay</a></p>
           <p v-else>Đã có tài khoản <a class="text-primary-600" @click.prevent="toggleLogin()" href="#">Đăng nhập ngay</a></p>
@@ -75,12 +79,14 @@ import {RegisterData} from "~/entities/auth.entity"
 import { SIGN_IN, SIGN_UP } from '~/apollo/mutates/auth.mutate'
 import { SignUp, SignUpVariables } from '~/apollo/mutates/__generated__/SignUp'
 import { SignIn, SignInVariables } from '~/apollo/mutates/__generated__/SignIn'
+import { ApolloError } from '@apollo/client/core'
 
 const from = reactive<RegisterData>({
   email: '0396094050',
   password: 'Khoi025',
   rePassword: 'Khoi025'
 })
+const error = ref('')
 
 const [isLogin, toggleLogin] = useToggle(true)
 /**
@@ -111,6 +117,7 @@ const writeToken = async (token: string, notify: string) => {
   }
 }
 const authAction = async () => {
+  error.value = ''
   try {
     if(isLogin.value) {
       const res = await signIn({
@@ -135,7 +142,9 @@ const authAction = async () => {
     }
 
   } catch (e) {
-    // @ts-ignore
+    if(e instanceof ApolloError) {
+      error.value = e.graphQLErrors[0].message
+    }
   }
 }
 const onSubmit = async () => {

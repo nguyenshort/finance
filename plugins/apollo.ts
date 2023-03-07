@@ -43,28 +43,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     const errorLink = onError((err) => {
         // @ts-ignore
         nuxtApp.callHook('apollo:error', err).then(r => r)
-        // if (graphQLErrors) {
-        //     graphQLErrors.forEach(
-        //         ({ message, extensions }) => {
-        //             console.log(
-        //                 `[GraphQL error]: Message: ${message}, Code: ${extensions.category}`
-        //             )
-        //             const useUser = useUserStore()
-        //             switch (extensions.category) {
-        //                 case 'authentication':
-        //                     notify.error('Phiên đăng nhập đã kết thúc').then(() => {
-        //                         window.$vue._context.provides.$cookies.remove('_token')
-        //                         useUser.logout()
-        //                         window.location.reload()
-        //                     })
-        //             }
-        //         }
-        //         // Xoá cookie, đăng xuất, login
-        //     )
-        // }
-        // if (networkError) {
-        //     console.log(`[Network error]: ${networkError}`)
-        // }
     })
 
     // Set custom links in the apollo client (in this case, the default apollo client)

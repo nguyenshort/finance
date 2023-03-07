@@ -177,7 +177,7 @@ const form = reactive<CreateInfoInput>({
  * Section: Birthday
  */
 const showBirthdayPicker = ref(false)
-const minDate = new Date(1970, 0, 1)
+const minDate = new Date(1960, 0, 1)
 const maxDate = new Date(2010, 0, 1)
 
 // birthday get and set computed

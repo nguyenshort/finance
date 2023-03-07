@@ -162,7 +162,7 @@ onDone((data) => {
   }
 })
 const validatorAmount = () => {
-  if(form.amount <= 30000000 || form.amount >= 500000000) {
+  if(form.amount < 30000000 || form.amount > 500000000) {
     return 'Số tiền phải nằm trong khoảng từ 30 tới 500 triệu'
   }
 }
