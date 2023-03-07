@@ -42,7 +42,7 @@
         <div class='mt-2'>
           <contract-collaborator>
             <template #default='{ open }'>
-              <a href='javascript:void(0)' class="text-[20px] text-primary-500 underline ml-auto mt-1 uppercase" @click='open'>
+              <a href='javascript:void(0)' class="text-[18px] text-primary-500 underline ml-auto mt-1 uppercase" @click='open'>
                 Liên hệ thẩm đin viên
               </a>
             </template>
