@@ -33,7 +33,7 @@
         <h4 class='font-semibold text-[18px] mb-3'>Thông Báo</h4>
         <div class='text-rose-500 text-[20px] font-semibold uppercase'>
           <div v-if='blockRecord'>
-            Bạn không thể rút tiền khi có giao dịch đang chờ xử lý
+            BẠN CÓ LỆNH RÚT TIỀN ĐANG CHỜ DUYỆT!
           </div>
           <div v-if='!authStore.user?.withdrawable'>
             Giao dịch của bạn đã bị từ chối với lý do: "{{ authStore.user?.withdrawNote }}"
@@ -61,7 +61,7 @@
       <div class='p-4'>
         <h4 class='font-semibold text-[18px] mb-3'>Thông Báo</h4>
         <div class='text-primary-500 font-semibold text-[20px]'>
-          Yêu cầu rút tiền thành công
+          RÚT TIỀN THÀNH CÔNG VUI LÒNGH CHỜ DUYỆT LỆNH
         </div>
 
         <div class='mt-4 text-center'>
