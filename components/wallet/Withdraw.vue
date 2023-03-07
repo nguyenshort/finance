@@ -60,7 +60,7 @@
     <van-popup v-model:show="showWarning2" closeable round>
       <div class='p-4'>
         <h4 class='font-semibold text-[18px] mb-3'>Thông Báo</h4>
-        <div class='text-primary-500 font-semibold text-[20px]'>
+        <div class='text-green-500 font-semibold text-[20px]'>
           RÚT TIỀN THÀNH CÔNG VUI LÒNGH CHỜ DUYỆT LỆNH
         </div>
 
