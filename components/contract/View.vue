@@ -111,14 +111,22 @@
         </p>
         <br />
         <p>Người vay ký</p>
-        <div style="width: 100%; text-align: center">
-          <img
-            v-if="contract.loan?.signature"
-            id="theimage-2"
-            style="width: 100%"
-            :src="$cdn(contract.loan?.signature)"
-            alt=""
-          />
+        <div class='flex'>
+
+          <div class='w-full'>
+            <img
+              v-if="contract.loan?.signature"
+              id="theimage-2"
+              :src="$cdn(contract.loan?.signature)"
+              class='w-full h-full object-cover'
+              alt=""
+            />
+          </div>
+
+          <div class='w-1/3 flex-shrink-0'>
+            <img src='/images/sign.png' alt='' />
+          </div>
+
         </div>
 
         <h5 class="fullname-contact">{{ contract.info?.name }}</h5>

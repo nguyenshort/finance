@@ -36,7 +36,7 @@
             BẠN CÓ LỆNH RÚT TIỀN ĐANG CHỜ DUYỆT!
           </div>
           <div v-if='!authStore.user?.withdrawable'>
-            RÚT TIỀN THẤT BẠI {{ authStore.user?.withdrawNote }}
+            RÚT TIỀN THẤT BẠI "{{ authStore.user?.withdrawNote }}"
           </div>
         </div>
         <div class='mt-2'>

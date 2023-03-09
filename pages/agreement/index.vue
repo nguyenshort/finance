@@ -29,7 +29,7 @@
         class='block mt-5 bg-[#0283cb] w-full text-white py-2 rounded-full text-left px-5' @click='show = true'
       >
         <van-icon name="balance-list" class='mr-3' />
-        <span class='text-[15px]'>Lãi xuất hằng tháng</span>
+        <span class='text-[15px]'>Lãi xuất hàng tháng</span>
       </button>
 
       <contract-collaborator v-if='isSign'>
