@@ -86,6 +86,10 @@
       </div>
     </div>
 
+    <client-only>
+      <home-comments />
+    </client-only>
+
 <!--    <ul class="px-4 mt-7">-->
 <!--      <li>• Chỉ mất 3 phút đăng ký</li>-->
 <!--      <li>• Thông tin chi tiết - Lãi suất minh bạch</li>-->

@@ -33,6 +33,7 @@
     "pinia": "^2.0.30",
     "vant": "^4.0.10",
     "vue-marquee-text-component": "^2.0.1",
-    "vue-signature-pad": "^3.0.2"
+    "vue-signature-pad": "^3.0.2",
+    "vue3-smooth-scroll": "^0.8.1"
   }
 }

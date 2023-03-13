@@ -10,9 +10,9 @@
 
       <van-image
           width="170"
-          height="170"
+          height="auto"
           fit="cover"
-          src="/images/logo.png"
+          src="/images/logofinace.png"
       />
 
     </div>
