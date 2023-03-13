@@ -82,9 +82,9 @@ import { SignIn, SignInVariables } from '~/apollo/mutates/__generated__/SignIn'
 import { ApolloError } from '@apollo/client/core'
 
 const from = reactive<RegisterData>({
-  email: '0396094050',
-  password: 'Khoi025',
-  rePassword: 'Khoi025'
+  email: '',
+  password: '',
+  rePassword: ''
 })
 const error = ref('')
 
