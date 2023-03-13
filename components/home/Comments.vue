@@ -1,37 +1,52 @@
 <template>
-  <div ref='containerRef' class='px-4 mt-10 h-[310px] overflow-auto scrollbar-hide examples'>
+  <div class='px-4 mt-10'>
+    <div
+      ref='containerRef'
+      class='h-[310px] overflow-hidden scrollbar-hide examples relative'
+      :style='{ height: containerHeight + "px" }'
+    >
 
 
-    <div ref='parentRef'>
       <div
-        v-for='(item, index) in examples'
-        :key='index'
-        class='pb-5 last:mb-0 transition'
-        :class='[`item-${index+1}`, {
-          "opacity-0": index !== currentIndex && index !== currentIndex + 1,
-        }]'
-        ref='itemsRef'
+        ref='parentRef'
+        class='absolute transform transition-all duration-500'
+        :style='{ top: -scrollHeight + "px" }'
       >
+        <div
+          v-for='(item, index) in examples'
+          :key='index'
+          class='pb-5 last:mb-0 transition'
+          :class='[`item-${index+1}`]'
+          ref='itemsRef'
+        >
 
-        <div class='flex'>
-          <div class='flex-shrink-0'>
-            <div class='w-[45px] h-[45px] rounded-full overflow-hidden'>
-              <img :src='item.avatar' alt='' class='w-full h-full object-cover' />
+          <div class='flex'>
+            <div class='flex-shrink-0'>
+              <div class='w-[45px] h-[45px] rounded-full overflow-hidden'>
+                <img :src='item.avatar' alt='' class='w-full h-full object-cover' />
+              </div>
+            </div>
+
+            <div class='w-full ml-3 p-3 border rounded-lg'>
+              <h4>{{ item.name }}</h4>
+              <p class='text-[14px] text-gray-500'>{{ item.content }}</p>
+
+              <div class='text-gray-500 text-[12px] text-right mt-3'>
+                {{ item.date }}
+              </div>
+
             </div>
           </div>
 
-          <div class='w-full ml-3 p-3 border rounded-lg'>
-            <h4>{{ item.name }}</h4>
-            <p class='text-[14px] text-gray-500'>{{ item.content }}</p>
-
-            <div class='text-gray-500 text-[12px] text-right mt-3'>
-              {{ item.date }}
-            </div>
-
-          </div>
         </div>
-
       </div>
+
+    </div>
+
+
+    <div>
+      <textarea v-model='content' placeholder='Nhập bình luận của bạn' class='h-[200px] bg-gray-100 w-full p-4 rounded-lg text-[14px] mb-3'></textarea>
+      <van-button type='primary' :disabled='!content' @click='content = ""'>Đăng Bình Luận</van-button>
     </div>
 
   </div>
@@ -113,10 +128,22 @@ const containerRef = ref<HTMLElement>()
 const parentRef = ref<HTMLElement>()
 const itemsRef = ref<HTMLElement[]>([])
 
+const heights = computed(() => {
+  return itemsRef.value.map((item) => item.offsetHeight)
+})
+
 
 const { counter } = useInterval(3000, { controls: true })
 
 const currentIndex = ref(0)
+const scrollHeight = ref(0)
+const containerHeight = ref(0)
+
+onMounted(() => nextTick(() => {
+
+  containerHeight.value = heights.value[currentIndex.value] + heights.value[currentIndex.value + 1]
+
+}))
 
 watch(counter, (value) => {
   if (value === 0) {
@@ -124,10 +151,13 @@ watch(counter, (value) => {
   } else {
     currentIndex.value = value % examples.value.length
   }
-  itemsRef.value[currentIndex.value].scrollIntoView({
-    behavior: 'smooth'
-  })
+
+  containerHeight.value = heights.value[currentIndex.value] + heights.value[currentIndex.value + 1]
+  scrollHeight.value = heights.value.slice(0, currentIndex.value).reduce((a, b) => a + b, 0)
 })
+
+
+const content = ref('')
 </script>
 
 <style scoped></style>
