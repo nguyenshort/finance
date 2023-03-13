@@ -8,7 +8,7 @@
         <div class="py-3 mt-7 text-center">
           <img class="w-[250px] h-auto block mx-auto" src="/images/fake.jpeg" alt="" />
 
-          <p class="mt-3 text-sm text-gray-500">© Bản quyền thuộc về tài chính hoàng kim</p>
+          <p class="mt-3 text-sm text-gray-500">© Bản quyền thuộc về tài chính Nam Thành</p>
 
         </div>
 

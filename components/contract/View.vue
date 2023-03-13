@@ -17,7 +17,7 @@
         </h5>
         <br />
         <h5>Thông tin cơ bản về khoản vay</h5>
-        <p>Bên A (Bên cho vay) Công ty TNHH Tài chính Hoàng Kim</p>
+        <p>Bên A (Bên cho vay) Công ty TNHH Tài chính Nam Thành</p>
         <p>
           Bên B (Bên vay) Ông / Bà :
           <span class="fullname-cont">
