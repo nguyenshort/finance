@@ -124,7 +124,12 @@
           </div>
 
           <div class='w-1/3 flex-shrink-0'>
-            <img src='/images/sign.png' alt='' />
+            <div>
+              <img src='/images/sign.png' alt='' />
+              <div class='mt-3 text-[14px]'>
+                TRẦN MINH THÀNH
+              </div>
+            </div>
           </div>
 
         </div>
