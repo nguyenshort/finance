@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     app: {
         head: {
-            title: 'Tài Chính Hoàng Kim',
+            title: 'Tài Chính Nam Thành',
             meta: [
               // disable zooming on mobile
               { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui' },
