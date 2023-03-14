@@ -128,7 +128,7 @@
             </div>
           </div>
 
-          <div class='w-1/3 flex-shrink-0 _sign_name'>
+          <div class='w-[150px] flex-shrink-0 _sign_name'>
             <p>ĐẠI DIỆN CTY</p>
             <div class='_img'>
               <img src='/images/sign.png' alt='' />
@@ -178,5 +178,10 @@ watch(_show, (value) => {
 <style scoped>
 ._sign_name > ._img {
   height: 120px;
+}
+
+._img img {
+  height: 100%;
+  object-fit: cover;
 }
 </style>
