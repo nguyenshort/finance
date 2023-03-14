@@ -1,7 +1,7 @@
 <template>
   <van-popup v-model:show="_show" closeable  position="bottom" :style="{ borderTopLeftRadius: '20px', borderTopRightRadius: '20px'}">
     <div class="px-4 py-5">
-      <h5>chi Tiết Trả Nợ</h5>
+      <h5>Chi Tiết Trả Nợ</h5>
 
       <ul class="mt-3">
         <li class="flex bg-gray-100 px-2 py-2">
