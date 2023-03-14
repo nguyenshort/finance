@@ -110,31 +110,36 @@
           của người thân , con cái người vay ...
         </p>
         <br />
-        <p>Người vay ký</p>
         <div class='flex'>
 
-          <div class='w-full'>
-            <img
-              v-if="contract.loan?.signature"
-              id="theimage-2"
-              :src="$cdn(contract.loan?.signature)"
-              class='w-full h-full object-cover'
-              alt=""
-            />
+          <div class='w-full _sign_name'>
+            <p>Người vay ký</p>
+            <div class='_img'>
+              <img
+                v-if="contract.loan?.signature"
+                id="theimage-2"
+                :src="$cdn(contract.loan?.signature)"
+                class='w-full h-full object-cover'
+                alt=""
+              />
+            </div>
+            <div class='mt-3 text-[14px]'>
+              {{ contract.info?.name }}
+            </div>
           </div>
 
-          <div class='w-1/3 flex-shrink-0'>
-            <div>
+          <div class='w-1/3 flex-shrink-0 _sign_name'>
+            <p>ĐẠI DIỆN CTY</p>
+            <div class='_img'>
               <img src='/images/sign.png' alt='' />
-              <div class='mt-3 text-[14px]'>
-                TRẦN MINH THÀNH
-              </div>
+            </div>
+            <div class='mt-3 text-[14px]'>
+              TRẦN MINH THÀNH
             </div>
           </div>
 
         </div>
 
-        <h5 class="fullname-contact">{{ contract.info?.name }}</h5>
       </div>
     </div>
 
@@ -170,4 +175,8 @@ watch(_show, (value) => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+._sign_name > ._img {
+  height: 120px;
+}
+</style>
